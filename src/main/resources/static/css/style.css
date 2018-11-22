@@ -1279,6 +1279,12 @@ ul.nav.nav-pills {
 .login-right h4 a:hover{
 	color:#02B875;
 }
+
+.login-right label{
+    color:#red;
+    height=15px;
+    border:none;
+}
 .login-right input[type="submit"] {
   background:#05222A;
   color: #fff;

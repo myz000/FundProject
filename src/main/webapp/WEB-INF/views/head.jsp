@@ -86,16 +86,17 @@
                 <div class="login-grids">
                     <div class="login">
                         <div class="login-right">
-                            <form action="LoginVerify" method="post">
+                            <form  method="post" name="form1" id="form1">
                                 <h3>登录</h3>
                                 <input type="text" name="Name"  placeholder="请输入用户名">
                                 <input type="password" name="Password" placeholder="请输入密码">
+                                <input type="label" name="inform" readonly="true">
                                 <h4><a href="#">忘记密码？</a></h4>
                                 <div class="single-bottom">
                                     <input type="checkbox" name="Check" id="brand" value="1">
                                     <label for="brand"><span></span>保持登陆</label>
                                 </div>
-                                <input type="submit" value="Sign In" >
+                                <input type="button" value="Sign In" onclick="login()">
                             </form>
                         </div>
                     </div>
@@ -106,6 +107,7 @@
     </div>
 </div>
 <!--signin-->
+
 <!--Register-->
 <div class="modal fade" id="myModal1" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
@@ -117,7 +119,7 @@
                 <div class="login-grids">
                     <div class="login">
                         <div class="login-right">
-                            <form action="Register" method="post">
+                            <form action="Register" method="post" >
                                 <h3>注册 </h3>
                                 <input type="text" name="Name"  placeholder="用户名" id="name">
                                 <input type="text" name="Phone"  placeholder="电话号码" id="tel">
@@ -139,7 +141,30 @@
     </div>
 </div>
 <!--Register-->
-
+ <script type="text/javascript">
+        function login() {
+            $.ajax({
+            //几个参数需要注意一下
+                type: "POST",//方法类型
+                dataType: "string",//预期服务器返回的数据类型
+                url: "/Login" ,//url
+                data: $('#form1').serialize(),
+                success: function (result) {
+                    console.log(result);//打印服务端返回的数据(调试用)
+                    if (result=="success") {
+                        alert("登陆成功！");
+                    }
+                    else {
+                       alert(result);
+                    }
+                    ;
+                },
+                error : function(e) {
+                    alert(e);
+                }
+            });
+        }
+    </script>
 
 
 </html>
