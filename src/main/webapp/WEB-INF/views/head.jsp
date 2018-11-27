@@ -86,11 +86,13 @@
                 <div class="login-grids">
                     <div class="login">
                         <div class="login-right">
-                            <form  method="post" name="form1" id="form1">
+                            <form  method="post" name="loginForm" id="loginForm">
                                 <h3>登录</h3>
                                 <input type="text" name="Name"  placeholder="请输入用户名">
                                 <input type="password" name="Password" placeholder="请输入密码">
-                                <input type="label" name="inform" readonly="true">
+                                <div class="informdiv">
+                                <label name="inform" readonly="true" id="inform"></label>
+                                </div>
                                 <h4><a href="#">忘记密码？</a></h4>
                                 <div class="single-bottom">
                                     <input type="checkbox" name="Check" id="brand" value="1">
@@ -119,17 +121,26 @@
                 <div class="login-grids">
                     <div class="login">
                         <div class="login-right">
-                            <form action="Register" method="post" >
+                            <form  method="post" name="registerForm" id="registerForm" >
                                 <h3>注册 </h3>
                                 <input type="text" name="Name"  placeholder="用户名" id="name">
                                 <input type="text" name="Phone"  placeholder="电话号码" id="tel">
                                 <input type="text" name="Email"  placeholder="邮箱" id="email">
                                 <input type="text" name="Id"  placeholder="身份证号" id="id">
-                                <input type="radio" name="Sex" value="男" checked>Male
-                                <input type="radio" name="Sex" value="女">Female
+                                <div class="sexDiv">
+                                <input type="radio" name="Sex" value="男" checked>男
+                                <input type="radio" name="Sex" value="女">女
+                                </div>
                                 <input type="password" name="Password1"  placeholder="密码" id="password1">
                                 <input type="password" name="Password2"  placeholder="再次输入密码" id="password2">
-                                <input type="submit" value="Register Now" >
+                                 <div class="VerificationDiv">
+                                 <input type="text" name="Verification"  placeholder="请输入验证码" id="verification">
+                                 <input type="button" value="获取验证码" onclick="phoneVerify()" id="VerifyButton" name="VerifyButton">
+                                 </div>
+                                <div class="informdiv">
+                                <label name="r-inform" readonly="true" id="r-inform"></label>
+                                </div>
+                                <input type="button" value="Register Now" onclick="register()" >
                             </form>
                         </div>
                         <div class="clearfix"></div>
@@ -146,25 +157,78 @@
             $.ajax({
             //几个参数需要注意一下
                 type: "POST",//方法类型
-                dataType: "string",//预期服务器返回的数据类型
+                dataType: 'json',//预期服务器返回的数据类型
                 url: "/Login" ,//url
-                data: $('#form1').serialize(),
+                data: $('#loginForm').serialize(),
                 success: function (result) {
-                    console.log(result);//打印服务端返回的数据(调试用)
-                    if (result=="success") {
-                        alert("登陆成功！");
+                    console.log("log"+result);//打印服务端返回的数据(调试用)
+                    if (result.stateCode==200) {
+                         location.reload();
                     }
                     else {
-                       alert(result);
+                       var label=document.getElementById("inform");
+                       label.innerText=result.msg;
                     }
                     ;
                 },
-                error : function(e) {
-                    alert(e);
-                }
+                error : function(msg) {
+                     console.log("msg:------------------ "+msg);
+                    		  	  },
             });
         }
-    </script>
 
+        function register() {
+                    $.ajax({
+                    //几个参数需要注意一下
+                        type: "POST",//方法类型
+                        dataType: 'json',//预期服务器返回的数据类型
+                        url: "/Register" ,//url
+                        data: $('#registerForm').serialize(),
+                        success: function (result) {
+                            console.log("log"+result);//打印服务端返回的数据(调试用)
+                            if (result.stateCode==200) {
+                                 location.reload();
+                                 alert("注册成功!");
+                            }
+                            else {
+                               var label=document.getElementById("r-inform");
+                               label.innerText=result.msg;
+                            }
+                            ;
+                        },
+                        error : function(msg) {
+                             console.log("msg:------------------ "+msg);
+                            		  	  },
+                    });
+                }
 
+        function phoneVerify(){
+                         $.ajax({
+                         //几个参数需要注意一下
+                         type: "POST",//方法类型
+                         dataType: 'json',//预期服务器返回的数据类型
+                         url: "/PhoneVerify" ,//url
+                         data: $('#registerForm').serialize(),
+                         success: function (result) {
+                                console.log("log"+result);//打印服务端返回的数据(调试用)
+                                if (result.error_code=="0") {
+                                var label=document.getElementById("r-inform");
+                                label.innerText="";
+
+                              /*
+                                   todo:   对按钮的倒计时
+
+                              */
+
+                           }else{
+                                 var label=document.getElementById("r-inform");
+                                 label.innerText=result.reason;
+                           }
+                           },
+                           error : function(msg) {
+                           console.log("msg:------------------ "+msg);
+                           },
+                           });
+                           }
+ </script>
 </html>

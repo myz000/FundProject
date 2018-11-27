@@ -4,10 +4,12 @@ import com.demo.entity.ApiBody;
 import com.demo.entity.News;
 import com.show.api.ShowApiRequest;
 import net.sf.json.JSONObject;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@Component
 public class ShowApiService {
     private String my_appId = "63423";
     private String my_appSercet = "c686c8708f3048abbcc326b2d792c4fb";

@@ -1280,12 +1280,18 @@ ul.nav.nav-pills {
 	color:#02B875;
 }
 
-.login-right label{
-    color:#red;
-    height=15px;
-    border:none;
+.informdiv{
+text-align:center;
 }
-.login-right input[type="submit"] {
+
+.informdiv label{
+    color:#FE512D;
+    border:0px;
+    width: 100%;
+    padding: .5em 0;
+}
+
+.login-right input[type="button"] {
   background:#05222A;
   color: #fff;
   font-size: 1.5em;
@@ -1301,7 +1307,7 @@ ul.nav.nav-pills {
     margin-top: .5em;
 	    font-family: 'Josefin Sans', sans-serif;
 }
-.login-right input[type="submit"]:hover {
+.login-right input[type="button"]:hover {
 	background:#02B875;
 }
 .login-grids p {
@@ -1878,6 +1884,10 @@ h3.tittle, h3.tittle1, h3.tittle2 {
     font-size: 1.2em;
 }
 
+.login-right input[type="button"] {
+    font-size: 1.2em;
+}
+
 }
 @media(max-width:480px){
 .indicate {
@@ -1911,6 +1921,10 @@ h3.tittle, h3.tittle1, h3.tittle2 {
     font-size: 2em;
 }
 .login-right input[type="submit"] {
+    font-size: 1.1em;
+}
+
+.login-right input[type="button"] {
     font-size: 1.1em;
 }
 .place-grid:nth-child(2) {

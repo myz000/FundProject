@@ -5,9 +5,7 @@ import com.demo.api.ShowApiService;
 import com.demo.entity.ApiBody;
 import com.demo.entity.News;
 import com.demo.entity.NoteBody;
-import org.junit.Assert;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 
 public class ApiTest extends BaseTest {

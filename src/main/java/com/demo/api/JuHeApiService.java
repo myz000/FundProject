@@ -2,6 +2,7 @@ package com.demo.api;
 
 import com.demo.entity.NoteBody;
 import net.sf.json.JSONObject;
+import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -10,6 +11,7 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
+@Component
 public class JuHeApiService {
 
 
