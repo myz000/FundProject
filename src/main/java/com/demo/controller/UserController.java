@@ -49,13 +49,8 @@ public class UserController {
         int code = (int) ((Math.random() * 9 + 1) * 1000);
         NoteBody note = noteServiceImpl.PhoneVerify(code, Phone);
         if (note.getError_code().equals("0"))
-            session.setAttribute("PhoneVerifyCode", code);
+            session.setAttribute("PhoneVerifyCode", String.valueOf(code));
         return ResponseEntity.ok(note);
-
-        /*HashMap map=new HashMap();
-        map.put("error_code",0);
-        return ResponseEntity.ok(map);*/
     }
-
 
 }

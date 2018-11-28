@@ -10,6 +10,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <html>
+ <script src="../static/js/Cookie.js"></script>
+ <script src="../static/js/PhoneVerify.js"></script>
+ <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
 <!--header-->
 
             <div class="header-top">
@@ -23,7 +26,7 @@
                            </c:when>
                           <c:otherwise>
                               <li><i class="glyphicon glyphicon-log-in" aria-hidden="true"></i><a href="#" data-toggle="modal" data-target="#myModal">登录   </a></li>
-                              <li><i class="glyphicon glyphicon-lock" aria-hidden="true"></i><a href="#" data-toggle="modal" data-target="#myModal1">注册</a></li>
+                              <li><i class="glyphicon glyphicon-lock" aria-hidden="true"></i><a href="#" data-toggle="modal" data-target="#myModal1" >注册</a></li>
                           </c:otherwise>
                        </c:choose>
                         </ul>
@@ -111,7 +114,7 @@
 <!--signin-->
 
 <!--Register-->
-<div class="modal fade" id="myModal1" tabindex="-1" role="dialog">
+<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" name="myModal1">
     <div class="modal-dialog" role="document">
         <div class="modal-content modal-info">
             <div class="modal-header">
@@ -134,7 +137,7 @@
                                 <input type="password" name="Password1"  placeholder="密码" id="password1">
                                 <input type="password" name="Password2"  placeholder="再次输入密码" id="password2">
                                  <div class="VerificationDiv">
-                                 <input type="text" name="Verification"  placeholder="请输入验证码" id="verification">
+                                 <input type="text" name="Verification"  placeholder="验证码" id="verification">
                                  <input type="button" value="获取验证码" onclick="phoneVerify()" id="VerifyButton" name="VerifyButton">
                                  </div>
                                 <div class="informdiv">
@@ -214,12 +217,8 @@
                                 if (result.error_code=="0") {
                                 var label=document.getElementById("r-inform");
                                 label.innerText="";
-
-                              /*
-                                   todo:   对按钮的倒计时
-
-                              */
-
+                                var button=document.registerForm.VerifyButton;
+                                Verify(button,"secondsremained");
                            }else{
                                  var label=document.getElementById("r-inform");
                                  label.innerText=result.reason;
