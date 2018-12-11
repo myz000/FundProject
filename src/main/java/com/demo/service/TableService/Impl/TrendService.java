@@ -1,14 +1,16 @@
-package com.demo.service;
+package com.demo.service.TableService.Impl;
 
 import com.demo.entity.Trend;
 import com.demo.repository.TrendRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 
 @Service
+@Component
 public class TrendService {
     @Autowired
     private TrendRepository trendRepository;

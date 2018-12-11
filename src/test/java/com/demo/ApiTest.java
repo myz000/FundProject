@@ -1,16 +1,30 @@
 package com.demo;
 
+import com.demo.api.FundApiService;
 import com.demo.api.JuHeApiService;
 import com.demo.api.ShowApiService;
-import com.demo.entity.ApiBody;
+import com.demo.entity.Fund;
+import com.demo.entity.FundDetailInfo;
 import com.demo.entity.News;
-import com.demo.entity.NoteBody;
+import com.demo.entity.apiBody.ApiBody;
+import com.demo.entity.apiBody.FundListApiBody;
+import com.demo.entity.apiBody.NoteBody;
+import lombok.Data;
+import net.sf.json.JSONObject;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ApiTest extends BaseTest {
-    ShowApiService showApiService = new ShowApiService();
-    JuHeApiService juHeApiService = new JuHeApiService();
+    @Autowired
+    ShowApiService showApiService;
+    @Autowired
+    JuHeApiService juHeApiService;
+    @Autowired
+    FundApiService fundApiService;
 
     @Test
     public void NewsApiTest() {
@@ -27,4 +41,30 @@ public class ApiTest extends BaseTest {
         NoteBody noteBody = juHeApiService.getNoteBody(code, "15800989215");
     }
 
+    @Test
+    public void testGetFundDetails() {
+        FundDetailInfo fundDetailInfo = fundApiService.getFundDetails("");
+
+    }
+
+    @Test
+    public void testFundList() {
+        FundListApiBody fundListApiBody = fundApiService.getFundList();
+        Object object = fundListApiBody.getResult().get(0);
+        JSONObject array = JSONObject.fromObject(object);
+        List list = new ArrayList();
+        for (int i = 1; i <= array.size(); i++) {
+            JSONObject ff = (JSONObject) array.get("" + i + "");
+            Fund fund = (Fund) JSONObject.toBean(ff, Fund.class);
+            list.add(fund);
+        }
+        for (int i = 0; i < list.size(); i++) {
+            System.out.println(list.get(i).toString());
+        }
+    }
+
+    @Data
+    public class CC {
+        List<Fund> a;
+    }
 }

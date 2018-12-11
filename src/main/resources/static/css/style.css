@@ -2664,6 +2664,9 @@ ul.address-text b {
     text-align: center;
 }
 
+
+.pageSide{width:1000px; text-align: center;}
+
 /**--基金详情页--**/
 .Funddetails {
   margin-top: 20px;

@@ -1,4 +1,4 @@
-package com.demo.entity;
+package com.demo.entity.apiBody;
 
 import lombok.Data;
 

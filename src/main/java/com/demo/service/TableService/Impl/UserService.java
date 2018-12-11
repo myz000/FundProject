@@ -1,16 +1,18 @@
-package com.demo.service;
+package com.demo.service.TableService.Impl;
 
 import com.demo.entity.LoginTicket;
 import com.demo.entity.User;
 import com.demo.repository.TicketRepository;
 import com.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.*;
 
 @Service
+@Component
 public class UserService {
     @Autowired
     private UserRepository userRepository;

@@ -32,6 +32,5 @@ function getCookieValue(name){
              return ""; 
              break;
          } 
-      } 
-       
+      }
 }

@@ -1,11 +1,12 @@
 package com.demo.service.Impl;
 
 import com.demo.api.ShowApiService;
-import com.demo.entity.ApiBody;
 import com.demo.entity.News;
+import com.demo.entity.apiBody.ApiBody;
+import com.demo.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class ShowApiServiceImpl implements com.demo.service.ShowApiService {
+public class NewsServiceImpl implements NewsService {
     @Autowired
     ShowApiService showApiService;
 

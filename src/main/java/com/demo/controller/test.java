@@ -1,7 +1,7 @@
 package com.demo.controller;
 
 import com.demo.entity.User;
-import com.demo.service.UserService;
+import com.demo.service.TableService.Impl.UserService;
 
 public class test {
 

@@ -17,6 +17,7 @@
     <!--css-->
     <link href="../static/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" charset="UTF-8"/>
     <link href="../static/css/style.css" rel="stylesheet" type="text/css" media="all" charset="UTF-8" />
+    <link href="../static/css/pagination.css" rel="stylesheet" type="text/css" media="all" charset="UTF-8" />
     <!--css-->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -24,6 +25,7 @@
     <!--js-->
     <script src="../static/js/jquery.min.js"></script>
     <script src="../static/js/bootstrap.min.js"></script>
+     <script src="../static/js/pagination.js"></script>
     <!--js-->
 </head>
 
@@ -66,8 +68,9 @@
 </form>
 <!--Fund-->
 
-<div class="ny_cont zml_time">
-    <table class="table fund_table">
+<div class="ny_cont zml_time" >
+<table class="table fund_table">
+<thead>
         <tr class="ft_row">
             <th class="ft_h1">序号</th>
             <th class="ft_h2">基金代码</th>
@@ -79,22 +82,65 @@
             <th class="ft_h">累计净值增长率（%）</th>
             <th class="ft_h">购买基金</th>
         </tr>
-<c:forEach items="${FundList}" var="fund" varStatus="status">
-        <tr class="ft_row">
-            <td>${status.index+1}</td>
-            <td><a href="GetFundDetails?FundCode=${fund.code}">${fund.code}</a></td>
-            <td><a href="GetFundDetails?FundCode=${fund.code}">${fund.name}</a></td>
-            <td>${fund.netincome}</td>
-            <td>${fund.assincome}</td>
-            <td>${fund.netassrate}</td>
-            <td>${fund.netgrowrate}</td>
-            <td>${fund.tonetgrora}</td>
-            <td><a href="WriteInvestInfor?fundname=${fund.name}&fundcode=${fund.code}">购买</a></td>
-        </tr>
-</c:forEach>
+        </thead>
+       <tbody id="FundListBody">
+       <tr>
+       <td>
+       </td>
+       <tr>
+       </tbody>
     </table>
-</div>
-<jsp:include page="footer.jsp"/>
+     <div class="pageSide">
+        <div class="M-box" id="M-box"></div>
+    </div>
+    </div>
 
+
+<jsp:include page="footer.jsp"/>
 </body>
+<script>
+    $('#M-box').pagination({
+    dataSource:function(done){
+                   $.ajax({
+                                          type: 'GET',
+                                          url: '/GetPageFundList',
+                                          success: function(response) {
+                                              done(response);
+                                          }
+                                      });
+                   },
+    pageCount:5,
+    jump:true,
+    coping:true,
+    pageSize: 10,
+    callback:function(data,pagination){
+     var html="";
+     for(i in data){
+     var index=(pagination.pageNumber-1)*pagination.pageSize+parseInt(i)+1;
+     html+=
+        "<tr class='ft_row'>"+
+                                                      "<td>"+index+"</td>"+
+                                                      "<td><a href='GetFundDetails?FundCode="+data[i].code+"'>"+data[i].code+"</a></td>"+
+                                                      "<td><a href='GetFundDetails?FundCode="+data[i].name+"'>"+data[i].name+"</a></td>"+
+                                                      "<td>"+data[i].netincome+"</td>"+
+                                                      "<td>"+data[i].assincome+"</td>"+
+                                                      "<td>"+data[i].netassrate+"</td>"+
+                                                      "<td>"+data[i].netgrowrate+"</td>"+
+                                                      "<td>"+data[i].tonetgrora+"</td>"+
+                                                      "<td><a href='WriteInvestInfor?fundname="+data[i].name+"&fundcode="+data[i].code+"'>购买</a></td>"+
+                                                  "</tr>";
+                                                  }
+    var label=document.getElementById("FundListBody");
+    label.innerHTML=html;;
+    }
+});
+
+
+
+
+</script>
+
+
+
+
 </html>

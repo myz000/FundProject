@@ -1,6 +1,6 @@
 package com.demo.api;
 
-import com.demo.entity.NoteBody;
+import com.demo.entity.apiBody.NoteBody;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Component;
 

@@ -1,6 +1,6 @@
-package com.demo.entity;
+package com.demo.entity.apiBody;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.demo.entity.News;
 import lombok.Data;
 
 @Data

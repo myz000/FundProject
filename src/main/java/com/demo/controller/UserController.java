@@ -1,9 +1,9 @@
 package com.demo.controller;
 
-import com.demo.entity.NoteBody;
+import com.demo.entity.apiBody.NoteBody;
 import com.demo.entity.User;
 import com.demo.service.Impl.NoteServiceImpl;
-import com.demo.service.UserService;
+import com.demo.service.TableService.Impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

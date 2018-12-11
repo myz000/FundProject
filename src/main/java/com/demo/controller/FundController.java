@@ -2,16 +2,15 @@ package com.demo.controller;
 
 import com.demo.api.FundDataDemo;
 import com.demo.configuration.WebSecurityConfig;
-import com.demo.entity.Invest;
-import com.demo.entity.Trend;
-import com.demo.entity.User;
-import com.demo.entity.showTrend;
-import com.demo.service.InvestService;
-import com.demo.service.TrendService;
-import com.demo.service.UserService;
+import com.demo.entity.*;
+import com.demo.service.FundService;
+import com.demo.service.TableService.Impl.InvestService;
+import com.demo.service.TableService.Impl.TrendService;
+import com.demo.service.TableService.Impl.UserService;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,26 +21,32 @@ import javax.servlet.http.HttpSession;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class FundController {
     @Autowired
-    private UserService userService = new UserService();
+    private UserService userService;
     @Autowired
-    private InvestService investService = new InvestService();
+    private InvestService investService;
     @Autowired
-    private TrendService trendService = new TrendService();
+    private TrendService trendService;
+    @Autowired
+    private FundService fundService;
 
 
     @RequestMapping(value = "/GetFundList")
     public String getFundList(HttpSession session) {
-        FundDataDemo FD = new FundDataDemo();
-        ArrayList FundList = (ArrayList) FD.getRequest1();
-        session.setAttribute("FundList", FundList);
+        List<Fund> fundList = fundService.getFundList();
+        session.setAttribute("FundList", fundList);
         return "Fund";
+    }
+
+
+    @GetMapping(value = "/GetPageFundList")
+    public ResponseEntity<?> getFundList2(HttpSession session) {
+        List<Fund> fundList = (List<Fund>) session.getAttribute("FundList");
+        return ResponseEntity.ok(fundList);
     }
 
     @RequestMapping(value = "/GetFundDetails")

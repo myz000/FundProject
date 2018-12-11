@@ -1,7 +1,7 @@
 package com.demo.api;
 
-import com.demo.entity.ApiBody;
 import com.demo.entity.News;
+import com.demo.entity.apiBody.ApiBody;
 import com.show.api.ShowApiRequest;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Component;
