@@ -120,7 +120,7 @@
      html+=
         "<tr class='ft_row'>"+
                                                       "<td>"+index+"</td>"+
-                                                      "<td><a href='GetFundDetails?FundCode="+data[i].code+"'>"+data[i].code+"</a></td>"+
+                                                      "<td><a href='GetFundDetailsTwo?fundCode="+data[i].code+"'>"+data[i].code+"</a></td>"+
                                                       "<td><a href='GetFundDetails?FundCode="+data[i].name+"'>"+data[i].name+"</a></td>"+
                                                       "<td>"+data[i].netincome+"</td>"+
                                                       "<td>"+data[i].assincome+"</td>"+
@@ -137,9 +137,35 @@
 
 
 
-
 </script>
+<script type="text/javascript" id="yy" src=""></script>
+<script type="text/javascript">
+        function init(code)
+        {
+         $.ajax({
+                                                  type: 'GET',
+                                                  url: '/GetDetail?code='+code,
+                                                  success: function(data) {
+                                                      yy.src = data;
+                                                  }
+                                              });
 
+
+            //如果马上使用会找不到，因为还没有加载进来，此处会报错
+            functionOne();
+
+        }
+        function operation()
+        {
+            //可以运行，显示“成功加载”
+            functionOne();
+        }
+
+        function functionOne(){
+            alert("成功加载");
+            console.log(fS_name);
+        }
+    </script>
 
 
 

@@ -10,6 +10,7 @@ import com.demo.service.TableService.Impl.UserService;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -70,6 +71,19 @@ public class FundController {
         request.setAttribute("managerCom", managerCom);
         request.setAttribute("details", details);
         return "FundDetails";
+    }
+
+    @RequestMapping(value = "/GetDetail")
+    public ResponseEntity getDetail(String code) {
+        String url = "http://fund.eastmoney.com/pingzhongdata/" + code + ".js";
+        return ResponseEntity.ok(url);
+    }
+
+    @RequestMapping(value = "/GetFundDetailsTwo")
+    public String getDetailTwo(String fundCode, HttpServletRequest request) {
+        FundDetailInfo fundDetailInfo = fundService.getFundDetail(fundCode);
+        request.setAttribute("Fund", fundDetailInfo);
+        return "FundDetailsTest";
     }
 
     @RequestMapping(value = "/WriteInvestInfor")
