@@ -2672,26 +2672,6 @@ ul.address-text b {
   margin-top: 20px;
 }
 
-.Funddetails span{
-    color:  #006030;
-    font-weight: bold;
-    font-size: 20px;
-    margin-top: 30px;
-    margin-bottom: 5px;
-}
-
-.Funddetails li,.Funddetails p{
-    font-size: 15px;
-    margin-top: 3px;
-}
-
-.Funddetails li span,.Funddetails p span{
-    font-size: 15px;
-    font-weight: bold;
-    color: #333333;
-    font-weight: normal;
-}
-
 
 /**--购买基金--**/
 

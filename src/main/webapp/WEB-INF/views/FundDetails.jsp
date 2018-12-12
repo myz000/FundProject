@@ -34,56 +34,72 @@
 
 <div class="ny_cont zml_time">
     <div class="Funddetails">
-    <span>基本信息</span>
-   <li>基金代码：<span>${fundInfor.get("fundcode")}</span></li>
-    <li>基金名称：<span>${fundInfor.get("commonName")}</span></li>
-    <li>基金成立日期：<span>${fundInfor.get("setupDate")}</span></li>
-    <li>投资类型：<span>${fundInfor.get("investType")}</span></li>
-    <li>投资风格：<span>${fundInfor.get("investStyle")}</span></li>
-    <li>首次投资规模：<span>${fundInfor.get("firstScale")}</span></li>
-    <li>最新投资规模：<span>${fundInfor.get("latestScale")}</span></li>
-    <li>基金托管公司：<span>${fundInfor.get("tgCom")}</span></li>
-    <li>基金管理公司：<span>${fundInfor.get("managerCom")}</span></li>
-    <li>日常申购费率：<span>${fundInfor.get("buyRate")}</span></li>
-    <li>基金赎回费率：<span>${fundInfor.get("redeemRate")}</span></li>
-        <br><br>
-    <span>经理人信息</span>
-    <li>姓名：<span>${manager.get("managerName")}</span></li>
-    <li>学历/职务：<span>${manager.get("profession")}</span></li>
-    <li>任职日期：<span>${manager.get("postDate")}</span></li>
-    <li>相关介绍：<span>${manager.get("introduceInfo")}</span></li>
-        <br><br>
-    <span>基金管理公司详情</span>
-    <li>管理公司名称：<span>${managerCom.get("managerComName")}</span></li>
-    <li>成立日期：<span>${managerCom.get("setupDate")}</span></li>
-    <li>法人代表：<span>${managerCom.get("corporateRepre")}</span></li>
-    <li>总经理：<span>${managerCom.get("generalManager")}</span></li>
-    <li>公司地址：<span>${managerCom.get("adde")}</span></li>
-    <li>邮政编码：<span>${managerCom.get("zipCode")}</span></li>
-    <li>email：<span>${managerCom.get("email")}</span></li>
-    <li>公司电话：<span>${managerCom.get("linkPhone")}</span></li>
-    <li>客服电话：<span>${managerCom.get("servicePhone")}</span></li>
+    <label>${Fund.fundFullInfo.fundName}(${Fund.fundFullInfo.fundCode})</label>
+    <table>
+    <tr>
+    <td> 最新净值日期：${Fund.fundFullInfo.netValueDate}</td>
+    <td>单位净值：${Fund.fundFullInfo.netValue}</td>
+    <td>日增长率：${Fund.fundFullInfo.dayOfGrowth}</td>
+    </tr>
+    <tr>
+    <td>近一周收益率：${Fund.fundFullInfo.lastWeek}</td>
+    <td>近一个季度收益率：${Fund.fundFullInfo.lastQuarter}</td>
+    </tr>
+    <tr>
+    <td>上个月收益率：${Fund.fundFullInfo.lastMonth}</td>
+    <td>上半年收益率：${Fund.fundFullInfo.lastHalfYear}</td>
+    <td>上一年度收益率：${Fund.fundFullInfo.lastYear}</td>
+    </tr>
+    </table>
 
-        <br><br>
-    <span>会计事务所</span>
-    <li><span>${details.get("accountingCom")}</span></li>
+     <table>
+     <tr><th>评级时间</th><th>级别</th><th>评级机构</th>
+     </tr>
+      <c:forEach items="${Fund.fundGrades}" var="grade" varStatus="status">
+            <tr>
+            <td>${grade.gradeDate}</td>
+            <td>${grade.grade}</td>
+            <td>${grade.gradeInst}</td>
+            </tr>
+      </c:forEach>
+     </table>
 
-        <br><br>
-    <span>法律事务所</span>
-    <li><span>${details.get("lawCom")}</span></li>
-
-        <br><br>
-    <span>投资目标</span>
-    <li><span>${details.get("investTarget")}</span></li>
-
-        <br><br>
-    <span>投资原则及比例</span>
-    <li><span>${details.get("investPrinciple")}</span></li>
-
-        <br><br>
-    <span>收益分配原则</span>
-    <p><span>${details.get("allPrin")}</span></p>
+    <table>
+    <tr>
+    <td>基金类型</td>
+    <td>${Fund.fundFullInfo.fundType}</td>
+    <td>基金公司名称</td>
+    <td>${Fund.fundFullInfo.fundCompanyName}</td>
+    </tr>
+    <tr>
+        <td>销售状态</td>
+        <td>${Fund.fundFullInfo.saleStatus}</td>
+        <td>可否购买</td>
+        <td>${Fund.fundFullInfo.saleEnable}</td>
+        </tr>
+    <tr>
+        <td>基金管理人</td>
+        <td>
+        <c:forEach items="${Fund.fundManagers}" var="manager">
+        <a href="">${manager.name}</a>&nbsp
+        </c:forEach>
+        </td>
+        <td>风险级别</td>
+        <td>${Fund.fundFullInfo.riskLevel}</td>
+        </tr>
+    <tr>
+        <td>买入费率</td>
+        <td>${Fund.fundFullInfo.manageRate}</td>
+        <td>托管费</td>
+                    <td>${Fund.fundFullInfo.trusteeRate}</td>
+        </tr>
+    </table>
+    <label>投资理念</label>
+    <p>${Fund.fundFullInfo.investPhilosophy}</p>
+    <label>基金策略</label>
+    <p>${Fund.fundFullInfo.investStrategy}</p>
     </div>
+
 </div>
 <jsp:include page="footer.jsp"/>
 </body>

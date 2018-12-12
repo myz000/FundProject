@@ -1,16 +1,12 @@
 package com.demo.controller;
 
-import com.demo.api.FundDataDemo;
 import com.demo.configuration.WebSecurityConfig;
 import com.demo.entity.*;
 import com.demo.service.FundService;
 import com.demo.service.TableService.Impl.InvestService;
 import com.demo.service.TableService.Impl.TrendService;
 import com.demo.service.TableService.Impl.UserService;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,40 +46,12 @@ public class FundController {
         return ResponseEntity.ok(fundList);
     }
 
+
     @RequestMapping(value = "/GetFundDetails")
-    public String getFundDetails(String FundCode, String FundName, HttpServletRequest request) {
-        System.out.println(FundCode);
-        System.out.println(FundName);
-        if (FundCode == null) {
-            FundCode = "";
-        }
-        if (FundName == null) {
-            FundName = "";
-        }
-        FundDataDemo FD = new FundDataDemo();
-        JSONObject fundInfor = FD.getFundDetails(FundCode, FundName);
-        JSONObject details = JSONObject.fromObject(fundInfor.get("details"));
-        JSONArray managerList = JSONArray.fromObject(details.get("managerList"));
-        JSONObject manager = managerList.getJSONObject(0);
-        JSONObject managerCom = JSONObject.fromObject(details.get("manageComDetails"));
-        request.setAttribute("fundInfor", fundInfor);
-        request.setAttribute("manager", manager);
-        request.setAttribute("managerCom", managerCom);
-        request.setAttribute("details", details);
-        return "FundDetails";
-    }
-
-    @RequestMapping(value = "/GetDetail")
-    public ResponseEntity getDetail(String code) {
-        String url = "http://fund.eastmoney.com/pingzhongdata/" + code + ".js";
-        return ResponseEntity.ok(url);
-    }
-
-    @RequestMapping(value = "/GetFundDetailsTwo")
     public String getDetailTwo(String fundCode, HttpServletRequest request) {
         FundDetailInfo fundDetailInfo = fundService.getFundDetail(fundCode);
         request.setAttribute("Fund", fundDetailInfo);
-        return "FundDetailsTest";
+        return "FundDetails";
     }
 
     @RequestMapping(value = "/WriteInvestInfor")
