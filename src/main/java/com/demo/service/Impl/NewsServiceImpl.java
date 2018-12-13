@@ -23,6 +23,5 @@ public class NewsServiceImpl implements NewsService {
         } else {
             return apiBody.getShowapi_res_body();
         }
-
     }
 }
