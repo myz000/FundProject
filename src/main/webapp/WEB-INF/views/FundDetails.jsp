@@ -33,6 +33,13 @@
 <!--banner-->
 
 <div class="ny_cont zml_time">
+     <c:choose>
+                               <c:when test="${empty Fund.fundFullInfo}">
+                               <div class="error_info">
+                               <h3>404</h3>
+                               </div>
+                               </c:when>
+                              <c:otherwise>
     <div class="Funddetails">
     <label>${Fund.fundFullInfo.fundName}(${Fund.fundFullInfo.fundCode})</label>
     <table>
@@ -99,8 +106,9 @@
     <label>基金策略</label>
     <p>${Fund.fundFullInfo.investStrategy}</p>
     </div>
-
 </div>
+</c:otherwise>
+</c:choose>
 <jsp:include page="footer.jsp"/>
 </body>
 </html>

@@ -58,8 +58,8 @@ public class FundApiService {
             classMap.put("fundGrades", FundDetailInfo.FundGrade.class);
             classMap.put("fundManagers", FundDetailInfo.FundManager.class);
             JSONObject m = JSONObject.fromObject(EntityUtils.toString(response.getEntity()));
-            FundDetailInfo fundDetailInfor = (FundDetailInfo) JSONObject.toBean(m, FundDetailInfo.class, classMap);
-            return fundDetailInfor;
+            FundDetailInfo fundDetailInfo = (FundDetailInfo) JSONObject.toBean(m, FundDetailInfo.class, classMap);
+            return fundDetailInfo;
         } catch (Exception e) {
             e.printStackTrace();
             return null;

@@ -12,13 +12,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 @Controller
 public class FundController {
@@ -41,15 +44,22 @@ public class FundController {
 
 
     @GetMapping(value = "/GetPageFundList")
-    public ResponseEntity<?> getFundList2(HttpSession session) {
+    public ResponseEntity<?> getPageFundList(HttpSession session) {
         List<Fund> fundList = (List<Fund>) session.getAttribute("FundList");
         return ResponseEntity.ok(fundList);
     }
 
 
     @RequestMapping(value = "/GetFundDetails")
-    public String getDetailTwo(String fundCode, HttpServletRequest request) {
+    public String getFundDetails(String fundCode, HttpServletRequest request) {
         FundDetailInfo fundDetailInfo = fundService.getFundDetail(fundCode);
+        request.setAttribute("Fund", fundDetailInfo);
+        return "FundDetails";
+    }
+
+    @RequestMapping(value = "/QueryFund", method = RequestMethod.POST)
+    public String queryFund(String queryCode, HttpServletRequest request) {
+        FundDetailInfo fundDetailInfo = fundService.getFundDetail(queryCode);
         request.setAttribute("Fund", fundDetailInfo);
         return "FundDetails";
     }

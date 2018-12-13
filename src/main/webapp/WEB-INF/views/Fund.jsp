@@ -1,5 +1,4 @@
 <%@ page import="com.demo.entity.Fund" %>
-<%@ page import="com.demo.api.FundDataDemo" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
@@ -39,19 +38,17 @@
 <!--banner-->
 
 <!--Search-->
-<form action="" method="post">
+<form action="/QueryFund" method="post">
 <div class="content">
-
     <div class="serach-w3agile">
         <div class="container">
             <div class="place-grids">
                 <div class="col-md-3 place-grid">
-                    <input class="sel" type="text" name="code">
+                    <input class="sel" type="text" name="queryCode">
                 </div>
                 <div class="col-md-2 place-grid">
                     <select class="sel">
                         <option value="">基金代码</option>
-                        <option value="">基金名称</option>
                     </select>
                 </div>
                 <div class="col-md-2 place-grid">
@@ -109,7 +106,6 @@
                                           }
                                       });
                    },
-    pageCount:5,
     jump:true,
     coping:true,
     pageSize: 10,
@@ -120,8 +116,8 @@
      html+=
         "<tr class='ft_row'>"+
                                                       "<td>"+index+"</td>"+
-                                                      "<td><a href='GetFundDetails?fundCode="+data[i].code+"'>"+data[i].code+"</a></td>"+
-                                                      "<td><a href='GetFundDetails?FundCode="+data[i].code+"'>"+data[i].name+"</a></td>"+
+                                                      "<td><a href='GetFundDetails?fundCode="+data[i].code+"' target='_blank'>"+data[i].code+"</a></td>"+
+                                                      "<td><a href='GetFundDetails?fundCode="+data[i].code+"' target='_blank'>"+data[i].name+"</a></td>"+
                                                       "<td>"+data[i].netincome+"</td>"+
                                                       "<td>"+data[i].assincome+"</td>"+
                                                       "<td>"+data[i].netassrate+"</td>"+
@@ -131,7 +127,7 @@
                                                   "</tr>";
                                                   }
     var label=document.getElementById("FundListBody");
-    label.innerHTML=html;;
+    label.innerHTML=html;
     }
 });
 </script>

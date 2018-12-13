@@ -57,8 +57,8 @@
                         <nav class="menu menu--francisco">
                             <ul class="nav navbar-nav menu__list">
                                 <li class="menu__item"><a href="/" class="menu__link"><span class="menu__helper">主页</span></a></li>
-                                <li class="menu__item"><a href="GetFundList" class="menu__link"><span class="menu__helper">基金信息</span></a></li>
-                                <li class="menu__item"><a href="News.jsp" class="menu__link" ><span class="menu__helper">新闻中心</span></a></li>
+                                <li class="menu__item"><a href="/GetFundList" class="menu__link"><span class="menu__helper">基金信息</span></a></li>
+                                <li class="menu__item"><a href="/news" class="menu__link" ><span class="menu__helper">新闻中心</span></a></li>
                                 <li class="menu__item"><a href="TransferDoor.jsp" class="menu__link"><span class="menu__helper">传送门</span></a></li>
                                 <li class="menu__item"><a href="LookBoughtFund" class="menu__link"><span class="menu__helper">我的基金</span></a></li>
                                 <li class="menu__item"><a href="Personal.jsp" class="menu__link"><span class="menu__helper">个人中心</span></a></li>
