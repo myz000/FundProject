@@ -22,6 +22,5 @@ public class NewsController {
     public ResponseEntity getNewsList(int page, int pageSize) {
         News news = newsService.getNews(page, pageSize);
         return ResponseEntity.ok(news);
-        //return ResponseEntity.ok(news.getPagebean().getContentlist()) ;
     }
 }

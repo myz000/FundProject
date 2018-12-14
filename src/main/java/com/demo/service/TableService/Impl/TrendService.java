@@ -21,7 +21,7 @@ public class TrendService {
            trend=trendRepository.findById(id);
         }catch (Exception e){}
         return trend;
-    };
+    }
 
     public ArrayList findTrendByUserId(long userId){
         ArrayList trendList=null;
@@ -29,7 +29,7 @@ public class TrendService {
             trendList=trendRepository.findByUserId(userId);
         }catch (Exception e){}
         return trendList;
-    };
+    }
 
     public Trend findLatestByUserIdFundCode(long userId, String fundCode){
        Trend trend=null;
@@ -37,7 +37,7 @@ public class TrendService {
             trend=trendRepository.findLatestByUserIdFundCode(userId,fundCode);
         }catch (Exception e){}
         return trend;
-    };
+    }
 
     public void UpdateStateByUserIdFundCode(long userid,String fundcode,int state){
         trendRepository.UpdateStateByUserIdFundCode(userid,fundcode,state);

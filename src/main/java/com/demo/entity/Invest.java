@@ -7,19 +7,19 @@ import javax.persistence.*;
 @Table(name="tbl_invest")
 public class Invest {
     @Id
-    private long id;  //ID 自增
-    private String fundcode;  //基金代码
+    private long id;                  //ID 自增
+    private String fundcode;         //基金代码
     private String fundname;
-    private String firstdate;   //定投首日日期
-    private String investmode;  //定投方式（日投、周投、月投）
+    private String firstdate;       //定投首日日期
+    private String investmode;      //定投方式（日投、周投、月投）
     private double amountofinvest;  //每次定投金额
     private double alreadyincome;  //已实现收益
-    private int state;  //状态       -1：未完结   0-已停止   1-定投中
-    private long userid;  //用户ID
-    private float fee;      //卖出时手续费  （0~1）
-    private int receiveddays;    //卖出到账天数
-    private int delaydays;    //结算延迟天数
-    private double unfinish;     //未完结金额
+    private int state;             //状态       -1：未完结   0-已停止   1-定投中
+    private long userid;           //用户ID
+    private float fee;             //卖出时手续费  （0~1）
+    private int receiveddays;      //卖出到账天数
+    private int delaydays;         //结算延迟天数
+    private double unfinish;       //未完结金额
     private String platform;
 
     public Invest(long id, String fundcode, String firstdate, String investmode, double amountofinvest, double alreadyincome, int state, long userid, float fee, int receiveddays, int delaydays, double unfinish,String platform) {

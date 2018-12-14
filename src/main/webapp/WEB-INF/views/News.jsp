@@ -33,7 +33,7 @@
 <!--banner-->
 <div class="banner1">
     <div class="container">
-        <h3 class="animated wow slideInLeft" data-wow-delay=".5s"><a href="index.html">主页</a> / <span>基金信息</span></h3>
+        <h3 class="animated wow slideInLeft" data-wow-delay=".5s"><a href="index.html">主页</a> / <span>新闻中心</span></h3>
     </div>
 </div>
 <!--banner-->
@@ -42,11 +42,6 @@
 <div class="content">
     <div class="serach-w3agile">
         <div class="container">
-            <div class="place-grids">
-                  <a href="">经济新闻</a>
-                  <a href="">最新公告</a>
-                <div class="clearfix"></div>
-            </div>
         </div>
     </div>
 </div>

@@ -42,7 +42,7 @@ public class InfromController {
         Inform inform = new Inform();
         inform.setTitle(title);
         inform.setContent(content);
-        inform.setPubTime(new Date());
+        inform.setTime(new Date());
         informService.saveInform(inform);
         return ResponseEntity.ok(true);
     }
