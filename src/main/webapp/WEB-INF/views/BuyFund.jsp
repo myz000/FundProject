@@ -48,7 +48,7 @@
 
 <div class="BuyFund">
     <!--banner-->
-    <form action="BuyFund" method="post">
+    <form  method="post" name="buyFundForm" id="buyFundForm">
         <div class="col-md-12 header-right">
             <h1>Hi !</h1>
             <h6>定投信息</h6>
@@ -65,7 +65,7 @@
         </div>
         <div class="BF_text">
             <span class="BF_MENU">定投首日日期：</span>
-            <input type="text" id="dt" placeholder="请选择日期" name="firstDate">
+            <input type="text" id="dt" placeholder="请选择日期" name="firstDate" readonly>
             <div id="dd"></div>
         </div>
         <div class="BF_text">
@@ -82,7 +82,7 @@
         </div>
         <div class="BF_text">
             <span class="BF_MENU">每次投入金额（元）：</span>
-            <input type="text" in="amount" name="amountOfInvest">
+            <input type="text" id="amount" name="amountOfInvest">
         </div>
         <div class="BF_text">
             <span class="BF_MENU">卖出时手续费（%）：</span>
@@ -103,7 +103,7 @@
         <div class="clearfix"> </div>
 
     <div id="BF_click">
-        <input type="submit" value="确定" id="btlogin">
+        <input type="button" value="确定" id="btlogin" onclick="buyFund()">
     </div>
 </form>
 </div>
@@ -151,6 +151,59 @@
         }
     });
 </script>
+<script>
+ function buyFund() {
+           for (var i = 0; i < buyFundForm.elements.length; i++) {
+                   if (buyFundForm.elements[i].value == "") {
+                       alert("请将表单填写完整！");
+                       break;
+                   }
+               }
+           var t1=new RegExp("^[0-9]*[1-9][0-9]*$");           //验证正整数
+           var t2=new RegExp("^(-?\\d+)(\\.\\d+)?$");             //验证浮点数
+           var t3=new RegExp("^-?\\d+$");                       //验证为整数
+           var t4=new RegExp("^\\d+(\\.\\d+)?$");                 //非负浮点数
+           console.log(document.buyFundForm.income.value);
+           if((!t4.test(document.buyFundForm.income.value))&(!t3.test(document.buyFundForm.income.value))){
+              alert("已实现收益只能为整数或小数！");
+           }
+
+           else if(!t1.test(document.buyFundForm.amount.value)){
+               alert("每次投入金额只能为正整数！");
+           }
+
+           else if(!t4.test(document.buyFundForm.fee.value)){
+               console.log(document.buyFundForm.fee.value+",");
+               alert("卖出时手续费只能为非负小数！");
+           }
+
+           else if(!t1.test(document.buyFundForm.days.value)){
+               alert("卖出到账工作日只能为正整数！");
+                      }
+
+           else if(!t1.test(document.buyFundForm.delaydays.value)){
+               alert("结算延迟天数只能为正整数！");
+                      }
+
+           else{
+            $.ajax({
+            //几个参数需要注意一下
+                type: "POST",//方法类型
+                dataType: 'json',//预期服务器返回的数据类型
+                url: "/BuyFund" ,//url
+                data: $('#buyFundForm').serialize(),
+                success: function (result) {
+                    console.log("log:"+result);      //打印服务端返回的数据(调试用)
+                    window.location.href='/LookBoughtFund';
+                },
+                error : function(msg) {
+                     console.log("msg:------------------ "+msg);
+                    		  	  },
+            });
+        }
+        }
+</script>
+
 <jsp:include page="footer.jsp"/>
 </body>
 </html>

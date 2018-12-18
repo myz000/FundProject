@@ -24,7 +24,6 @@ public class InvestService {
         return invest;
     }
 
-    ;
 
     public ArrayList findInvestByUserId(long userId) {
         ArrayList investList = null;
@@ -35,8 +34,6 @@ public class InvestService {
         return investList;
     }
 
-    ;
-
     public ArrayList findValidInvestByUserId(long userId) {
         ArrayList investList = null;
         try {
@@ -46,7 +43,6 @@ public class InvestService {
         return investList;
     }
 
-    ;
 
     public Invest findInvestByUserIdFundcode(long userId, String fundcode) {
         Invest investList = null;
@@ -57,7 +53,7 @@ public class InvestService {
         return investList;
     }
 
-    ;
+
 
     public void StopInvest(long userId, String fundcode) {
         investRepository.UpdateStateByUserIdFundCode(userId, fundcode, 0);
@@ -66,10 +62,9 @@ public class InvestService {
 
     @Transactional
     public void saveInvest(Invest invest) {
-        investRepository.save(invest);
+        investRepository.saveAndFlush(invest);
     }
 
-    ;
 
     @Transactional
     public void deleteInvestById(long id) {

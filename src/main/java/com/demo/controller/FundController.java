@@ -22,6 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 public class FundController {
@@ -75,14 +76,16 @@ public class FundController {
     }
 
     @PostMapping(value = "/BuyFund")
-    public String buyFund(String fundCode, String fundName, String firstDate, String investMode,
-                          String amountOfInvest, String alreadyIncome, String fee,
-                          String receivedDays, String delayDays, String platform, HttpSession session, HttpServletRequest request) {
+    public ResponseEntity buyFund(String fundCode, String fundName, String firstDate, String investMode,
+                                  String amountOfInvest, String alreadyIncome, String fee,
+                                  String receivedDays, String delayDays, String platform, HttpSession session, HttpServletRequest request) {
         System.out.println("---" + receivedDays);
         String userName = (String) session.getAttribute(WebSecurityConfig.SESSION_KEY);
         User user = userService.findUserByName(userName);
         System.out.println(user.getUsername());
         Invest invest = new Invest();
+        UUID uuid = UUID.randomUUID();
+        invest.setId(uuid.toString());
         invest.setFundcode(fundCode);
         invest.setFundname(fundName);
         invest.setFirstdate(firstDate);
@@ -111,8 +114,9 @@ public class FundController {
         trend.setInvestcost(Double.parseDouble(amountOfInvest));
         trend.setUserid(user.getId());
         trend.setState(1);
+        trend.setInvestid(invest.getId());
         trendService.saveTrend(trend);
-        return LookBoughtFund(session, request);
+        return ResponseEntity.ok("");
     }
 
     @GetMapping(value = "/LookBoughtFund")
@@ -128,13 +132,12 @@ public class FundController {
         List investList = investService.findInvestByUserId(user.getId());
         List showTrendList = new ArrayList();
         DecimalFormat df = new java.text.DecimalFormat("#.0000");
-        //df.format("12345.6789");
         for (int i = 0; i < investList.size(); i++) {
             Invest invest = (Invest) investList.get(i);
-            System.out.println(invest.getFundcode());
             if (invest.getState() == 1) {
                 String code = invest.getFundcode();
-                Trend trend = trendService.findLatestByUserIdFundCode(user.getId(), code);
+                // Trend trend = trendService.findLatestByUserIdFundCode(user.getId(), code);
+                Trend trend = trendService.findLatestByInvestId(invest.getId());
                 if (trend != null) {
                     showTrend st = new showTrend(invest.getFundcode(), invest.getFundname(), trend.getInvestdays(),
                             Float.parseFloat(df.format(trend.getShouyirate())), Double.parseDouble(df.format(trend.getShourinianhua())), trend.getXirr(), Double.parseDouble(df.format(trend.getProfit())), Double.parseDouble(df.format(trend.getInvestcost())), invest.getPlatform());
@@ -185,7 +188,7 @@ public class FundController {
         return showTrendList;
     }
 
-    @PostMapping(value = "/UpdateTrendtable")
+    @PostMapping(value = "/UpdateTrendTable")
     public String UpdateTrend(String date, String[] fundcode, String[] property, String[] zdf, String[] ccyk, HttpSession session, HttpServletRequest request) {
         if (date.equals("")) {
             request.setAttribute("msg", "请选择日期！");
@@ -230,6 +233,7 @@ public class FundController {
                 T.setProfit(profit);
                 T.setInvestcost(investedcost);
                 T.setUserid(user.getId());
+                T.setInvestid(invest.getId());
                 T.setState(1);
                 trendService.UpdateStateByUserIdFundCode(user.getId(), code, 0);
                 trendService.saveTrend(T);

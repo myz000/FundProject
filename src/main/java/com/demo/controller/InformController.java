@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 @Controller
-public class InfromController {
+public class InformController {
     @Autowired
     InformService informService;
 

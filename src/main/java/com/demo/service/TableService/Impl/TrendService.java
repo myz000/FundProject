@@ -39,13 +39,24 @@ public class TrendService {
         return trend;
     }
 
+    public Trend findLatestByInvestId(String investId) {
+        Trend trend = null;
+        try {
+            trend = trendRepository.findLatestByInvestId(investId);
+        } catch (Exception e) {
+        }
+        return trend;
+    }
+
     public void UpdateStateByUserIdFundCode(long userid,String fundcode,int state){
         trendRepository.UpdateStateByUserIdFundCode(userid,fundcode,state);
     }
 
 
     @Transactional
-    public void saveTrend(Trend invest){trendRepository.save(invest);};
+    public void saveTrend(Trend trend) {
+        trendRepository.save(trend);
+    }
 
     @Transactional
     public void deleteTrendById(long id){trendRepository.delete(id);}

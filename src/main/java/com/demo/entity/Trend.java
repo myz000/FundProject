@@ -25,6 +25,7 @@ public class Trend {
     private double investcost;                //投入成本
     private long userid;                      //用户Id
     private int state;                        //状态    0：已停止      1：定投中
+    private String investid;
 
     public Trend(long id, String fundcode, String currentdate, double property, double zhangdiefu, double chicangyingkui, int investdays, float shouyirate, double shourinianhua, double xirr, double profit, double investcost, long userid, int state) {
         this.id = id;

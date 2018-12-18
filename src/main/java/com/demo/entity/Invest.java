@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Table(name="tbl_invest")
 public class Invest {
     @Id
-    private long id;                  //ID 自增
+    private String id;                  //ID 自增
     private String fundcode;         //基金代码
     private String fundname;
     private String firstdate;       //定投首日日期
@@ -22,7 +22,7 @@ public class Invest {
     private double unfinish;       //未完结金额
     private String platform;
 
-    public Invest(long id, String fundcode, String firstdate, String investmode, double amountofinvest, double alreadyincome, int state, long userid, float fee, int receiveddays, int delaydays, double unfinish,String platform) {
+    public Invest(String id, String fundcode, String firstdate, String investmode, double amountofinvest, double alreadyincome, int state, long userid, float fee, int receiveddays, int delaydays, double unfinish, String platform) {
         this.id = id;
         this.fundcode = fundcode;
         this.firstdate = firstdate;
@@ -41,11 +41,11 @@ public class Invest {
     public Invest() {
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

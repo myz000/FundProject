@@ -51,7 +51,7 @@
     </div>
 </div>
 <!--banner-->
-<form action="UpdateTrendtable" method="post">
+<form action="UpdateTrendTable" method="post">
 <div class="UpdateMyFund">
     <div class="UP_click">
         <label>日期：</label><input type="text" id="dt" name="date" placeholder="请选择日期">

@@ -25,15 +25,16 @@ public class WelcomeController {
     private UserService userService;
 
     @RequestMapping(value = "/Logout")
-    public String logout(HttpServletRequest request, HttpSession session) {
+    public ResponseEntity<?> logout(HttpServletRequest request, HttpSession session) {
         Cookie[] cookies = request.getCookies();
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals("ticket")) {
                 cookie.setMaxAge(0);
             }
         }
+        User user = userService.findUserByName((String) session.getAttribute(WebSecurityConfig.SESSION_KEY));
         session.removeAttribute("username");
-        return welcome(request, session);
+        return ResponseEntity.ok(user.getRole());
     }
 
     @RequestMapping(value = "/")
@@ -79,7 +80,9 @@ public class WelcomeController {
 
         if (map.containsKey("ticket")) {
             session.setAttribute(WebSecurityConfig.SESSION_KEY, Name);
+            User user = userService.findUserByName(Name);
             map.put("stateCode", "200");
+            map.put("role", user.getRole());
         } else {
             String msg = map.get("msg");
             System.out.println(msg);
