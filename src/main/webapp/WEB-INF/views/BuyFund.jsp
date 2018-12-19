@@ -153,10 +153,11 @@
 </script>
 <script>
  function buyFund() {
+
            for (var i = 0; i < buyFundForm.elements.length; i++) {
                    if (buyFundForm.elements[i].value == "") {
                        alert("请将表单填写完整！");
-                       break;
+                       return;
                    }
                }
            var t1=new RegExp("^[0-9]*[1-9][0-9]*$");           //验证正整数

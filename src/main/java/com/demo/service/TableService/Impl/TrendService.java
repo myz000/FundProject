@@ -31,13 +31,6 @@ public class TrendService {
         return trendList;
     }
 
-    public Trend findLatestByUserIdFundCode(long userId, String fundCode){
-       Trend trend=null;
-        try{
-            trend=trendRepository.findLatestByUserIdFundCode(userId,fundCode);
-        }catch (Exception e){}
-        return trend;
-    }
 
     public Trend findLatestByInvestId(String investId) {
         Trend trend = null;
@@ -47,11 +40,6 @@ public class TrendService {
         }
         return trend;
     }
-
-    public void UpdateStateByUserIdFundCode(long userid,String fundcode,int state){
-        trendRepository.UpdateStateByUserIdFundCode(userid,fundcode,state);
-    }
-
 
     @Transactional
     public void saveTrend(Trend trend) {

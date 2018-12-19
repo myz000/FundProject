@@ -51,19 +51,20 @@
     </div>
 </div>
 <!--banner-->
-<form action="UpdateTrendTable" method="post">
+<form method="post" name="updateForm" id="updateForm">
 <div class="UpdateMyFund">
     <div class="UP_click">
-        <label>日期：</label><input type="text" id="dt" name="date" placeholder="请选择日期">
-        <input type="submit"  id="update" class="updateBtn" value="更新基金"/>
+        <label>日期：</label><input type="text" id="dt" name="date" placeholder="请选择日期" readonly>
+        <input type="button"  value="更新基金" onclick="update()"/>
+         <label id="message" name="message" style="color:red;background:white;"></label>
         <div id="dd"></div>
-
     </div>
     <div class="xxx"></div>
     <div class="ny_cont zml_time">
     <table class="table fund_table" id="MF_tab">
         <tr class="ft_row">
             <th class="ft_h1">序号</th>
+            <th class="ft_h1"></th>
             <th class="ft_h">基金代码</th>
             <th class="ft_h3">基金简称</th>
             <th class="ft_h3">资产</th>
@@ -72,19 +73,20 @@
         </tr>
         <c:forEach items="${showTrendList}" var="trend" varStatus="status">
             <tr class="ft_row" id="tr_${status.index}">
-                <td>${status.index+1}</td>
-                <td><input type="text" value="${trend.fundcode}" readonly name="fundcode" style="border: none"></td>
+                <td>${status.index+1}<input type="hide" name="investid" value="${trend.investid}"></td>
+                <td><input type="checkbox" name="check" value="${status.index+1}" checked></td>
+                <td><input type="text" value="${trend.fundcode}" readonly name="fundcode" id="fundcode" style="border: none"></td>
                 <td>${trend.fundname}</td>
-                <td><input type="text" name="property"></td>
-                <td><input type="text" name="zdf"></td>
-                <td><input type="text" name="ccyk"></td>
+                <td><input type="text" name="property" value=" "></td>
+                <td><input type="text" name="zdf" value=" "></td>
+                <td><input type="text" name="ccyk" value=" "></td>
             </tr>
         </c:forEach>
     </table>
     </div>
 </div>
 </form>
-<script src="../static/js/jquery.js"></script>
+<script src="../static/js/jquery.min.js"></script>
 <script src="../static/js/calendar.js"></script>
 <script>
     $('#ca').calendar({
@@ -128,11 +130,34 @@
     });
 </script>
 <script>
-    var msg="${requestScope.get('msg')}";
-    if(msg!=""){
-        alert(msg);
-    }
+ function update() {
+          var label=document.getElementById("message");
+          if($("#dt").val()==""){
+                 label.innerText="请选择日期！";
+                 return;
+          }
+                            $.ajax({
+                            //几个参数需要注意一下
+                                type: "POST",//方法类型
+                                url: "/UpdateTrend" ,//url
+                                dataType: 'json',//预期服务器返回的数据类型
+                                data:$("#updateForm").serialize(),
+                                success: function (result) {
+                                    console.log("log:"+result);//打印服务端返回的数据(调试用)
+                                    if (result.stateCode=="200") {
+                                         window.location.href='/LookBoughtFund';
+                                    }
+                                    else{
+                                       label.innerText=result.message;
+                                    }
+                                },
+                                error : function(msg) {
+                                     console.log("msg:------------------ "+msg);
+                                    		  	  },
+                            });
+                        }
 </script>
+
 <jsp:include page="footer.jsp"/>
 </body>
 </html>

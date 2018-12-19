@@ -7,6 +7,7 @@ import com.demo.service.TableService.Impl.InvestService;
 import com.demo.service.TableService.Impl.TrendService;
 import com.demo.service.TableService.Impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,10 +20,7 @@ import javax.servlet.http.HttpSession;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Controller
 public class FundController {
@@ -52,21 +50,24 @@ public class FundController {
 
 
     @RequestMapping(value = "/GetFundDetails")
-    public String getFundDetails(String fundCode, HttpServletRequest request) {
+    public String getFundDetails(@Param("fundCode") String fundCode, HttpServletRequest request) {
         FundDetailInfo fundDetailInfo = fundService.getFundDetail(fundCode);
         request.setAttribute("Fund", fundDetailInfo);
         return "FundDetails";
     }
 
     @RequestMapping(value = "/QueryFund", method = RequestMethod.POST)
-    public String queryFund(String queryCode, HttpServletRequest request) {
+    public String queryFund(@Param("queryCode") String queryCode, HttpServletRequest request) {
         FundDetailInfo fundDetailInfo = fundService.getFundDetail(queryCode);
         request.setAttribute("Fund", fundDetailInfo);
         return "FundDetails";
     }
 
     @RequestMapping(value = "/WriteInvestInfor")
-    public String writeInvestInfor(String fundname, String fundcode, HttpServletRequest request) {
+    public String writeInvestInfor(
+            @Param("fundname") String fundname,
+            @Param("fundcode") String fundcode,
+            HttpServletRequest request) {
         System.out.println("WriteInvestInfor");
         System.out.println(fundname);
         System.out.println(fundcode);
@@ -76,9 +77,17 @@ public class FundController {
     }
 
     @PostMapping(value = "/BuyFund")
-    public ResponseEntity buyFund(String fundCode, String fundName, String firstDate, String investMode,
-                                  String amountOfInvest, String alreadyIncome, String fee,
-                                  String receivedDays, String delayDays, String platform, HttpSession session, HttpServletRequest request) {
+    public ResponseEntity buyFund(@Param("fundCode") String fundCode,
+                                  @Param("fundName") String fundName,
+                                  @Param("firstDate") String firstDate,
+                                  @Param("investMode") String investMode,
+                                  @Param("amountOfInvest") String amountOfInvest,
+                                  @Param("alreadyIncome") String alreadyIncome,
+                                  @Param("fee") String fee,
+                                  @Param("receivedDays") String receivedDays,
+                                  @Param("delayDays") String delayDays,
+                                  @Param("platform") String platform,
+                                  HttpSession session) {
         System.out.println("---" + receivedDays);
         String userName = (String) session.getAttribute(WebSecurityConfig.SESSION_KEY);
         User user = userService.findUserByName(userName);
@@ -113,7 +122,6 @@ public class FundController {
         trend.setProperty(0);
         trend.setInvestcost(Double.parseDouble(amountOfInvest));
         trend.setUserid(user.getId());
-        trend.setState(1);
         trend.setInvestid(invest.getId());
         trendService.saveTrend(trend);
         return ResponseEntity.ok("");
@@ -135,12 +143,12 @@ public class FundController {
         for (int i = 0; i < investList.size(); i++) {
             Invest invest = (Invest) investList.get(i);
             if (invest.getState() == 1) {
-                String code = invest.getFundcode();
-                // Trend trend = trendService.findLatestByUserIdFundCode(user.getId(), code);
                 Trend trend = trendService.findLatestByInvestId(invest.getId());
                 if (trend != null) {
                     showTrend st = new showTrend(invest.getFundcode(), invest.getFundname(), trend.getInvestdays(),
-                            Float.parseFloat(df.format(trend.getShouyirate())), Double.parseDouble(df.format(trend.getShourinianhua())), trend.getXirr(), Double.parseDouble(df.format(trend.getProfit())), Double.parseDouble(df.format(trend.getInvestcost())), invest.getPlatform());
+                            Float.parseFloat(df.format(trend.getShouyirate())), Double.parseDouble(df.format(trend.getShourinianhua())),
+                            trend.getXirr(), Double.parseDouble(df.format(trend.getProfit())), Double.parseDouble(df.format(trend.getInvestcost())),
+                            invest.getPlatform(), trend.getCurrentdate(), invest.getId());
                     showTrendList.add(st);
                 }
             }
@@ -176,39 +184,48 @@ public class FundController {
             Invest invest = (Invest) investList.get(i);
             System.out.println(invest.getFundcode());
             if (invest.getState() == 1) {
-                String code = invest.getFundcode();
-                Trend trend = trendService.findLatestByUserIdFundCode(user.getId(), code);
-                if (trend != null) {
-                    showTrend st = new showTrend(invest.getFundcode(), invest.getFundname(), trend.getInvestdays(),
-                            Float.parseFloat(df.format(trend.getShouyirate())), Double.parseDouble(df.format(trend.getShourinianhua())), trend.getXirr(), Double.parseDouble(df.format(trend.getProfit())), Double.parseDouble(df.format(trend.getInvestcost())), invest.getPlatform());
-                    showTrendList.add(st);
-                }
+                Trend trend = trendService.findLatestByInvestId(invest.getId());
+                showTrend st = new showTrend(invest.getFundcode(), invest.getFundname(),
+                        trend.getInvestdays(), Float.parseFloat(df.format(trend.getShouyirate())),
+                        Double.parseDouble(df.format(trend.getShourinianhua())), trend.getXirr(),
+                        Double.parseDouble(df.format(trend.getProfit())), Double.parseDouble(df.format(trend.getInvestcost())),
+                        invest.getPlatform(), trend.getCurrentdate(), invest.getId());
+                showTrendList.add(st);
             }
         }
         return showTrendList;
     }
 
-    @PostMapping(value = "/UpdateTrendTable")
-    public String UpdateTrend(String date, String[] fundcode, String[] property, String[] zdf, String[] ccyk, HttpSession session, HttpServletRequest request) {
-        if (date.equals("")) {
-            request.setAttribute("msg", "请选择日期！");
-            return toUpdateTrend(session, request);
-        }
+    @PostMapping(value = "/UpdateTrend")
+    public ResponseEntity UpdateTrend(String[] check,
+                                      String date,
+                                      String[] fundcode,
+                                      String[] property,
+                                      String[] zdf,
+                                      String[] ccyk,
+                                      String[] investid,
+                                      HttpSession session
+    ) {
+
         int len = fundcode.length;
-        System.out.println("len:" + len);
-        if (property.length != len || zdf.length != len || ccyk.length != len) {
-            request.setAttribute("msg", "请将更新信息填写完整！");
-            return toUpdateTrend(session, request);
-        }
+        List checkList = Arrays.asList(check);
 
         String userName = (String) session.getAttribute(WebSecurityConfig.SESSION_KEY);
         User user = userService.findUserByName(userName);
-        for (int i = 0; i < len; i++) {
+        Map m = new HashMap();
 
-            if (fundcode[i].equals("") || property[i].equals("") || zdf[i].equals("") || ccyk[i].equals("")) {
+        for (int i = 0; i < len; i++) {
+            if (!checkList.contains(String.valueOf(i + 1))) {
                 continue;
             }
-            Invest invest = investService.findInvestByUserIdFundcode(user.getId(), fundcode[i]);
+
+            if (fundcode[i].equals("") || property[i].equals("") || zdf[i].equals("") || ccyk[i].equals("")) {
+                m.put("stateCode", "400");
+                m.put("message", "更新数据不能为空！");
+                return ResponseEntity.ok(m);
+            }
+
+            Invest invest = investService.findInvestById(investid[i]);
             try {
                 String code = fundcode[i];
                 double p = Double.parseDouble(property[i]);
@@ -234,14 +251,16 @@ public class FundController {
                 T.setInvestcost(investedcost);
                 T.setUserid(user.getId());
                 T.setInvestid(invest.getId());
-                T.setState(1);
-                trendService.UpdateStateByUserIdFundCode(user.getId(), code, 0);
                 trendService.saveTrend(T);
             } catch (ParseException e) {
                 e.printStackTrace();
+                m.put("stateCode", "400");
+                m.put("message", "e");
+                return ResponseEntity.ok(m);
             }
         }
-        return LookBoughtFund(session, request);
+        m.put("stateCode", "200");
+        return ResponseEntity.ok(m);
     }
 
 
@@ -257,14 +276,11 @@ public class FundController {
     }
 
     @GetMapping(value = "/StopInvest")
-    public String StopInvest(HttpSession session, HttpServletRequest request) {
+    public String StopInvest(
+            @Param("investId") String investId,
+            HttpSession session, HttpServletRequest request) {
         System.out.println("StopInvest");
-        String fundcode = (String) request.getParameter("fundcode");
-        System.out.println("停止定投：" + fundcode);
-        String userName = (String) session.getAttribute(WebSecurityConfig.SESSION_KEY);
-        User user = userService.findUserByName(userName);
-        investService.StopInvest(user.getId(), fundcode);
-        trendService.UpdateStateByUserIdFundCode(user.getId(), fundcode, 0);
+        investService.StopInvest(investId);
         return LookBoughtFund(session, request);
     }
 }

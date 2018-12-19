@@ -15,7 +15,7 @@ public class InvestService {
     @Autowired
     private InvestRepository investRepository;
 
-    public Invest findInvestById(long id) {
+    public Invest findInvestById(String id) {
         Invest invest = null;
         try {
             invest = investRepository.findById(id);
@@ -34,29 +34,8 @@ public class InvestService {
         return investList;
     }
 
-    public ArrayList findValidInvestByUserId(long userId) {
-        ArrayList investList = null;
-        try {
-            investList = investRepository.findInvestedByUserId(userId);
-        } catch (Exception e) {
-        }
-        return investList;
-    }
-
-
-    public Invest findInvestByUserIdFundcode(long userId, String fundcode) {
-        Invest investList = null;
-        try {
-            investList = investRepository.findInvestedByUserIdFundcode(userId, fundcode);
-        } catch (Exception e) {
-        }
-        return investList;
-    }
-
-
-
-    public void StopInvest(long userId, String fundcode) {
-        investRepository.UpdateStateByUserIdFundCode(userId, fundcode, 0);
+    public void StopInvest(String investId) {
+        investRepository.UpdateStateById(investId, 0);
     }
 
 

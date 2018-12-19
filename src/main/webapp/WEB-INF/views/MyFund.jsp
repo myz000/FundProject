@@ -50,10 +50,10 @@
                 <th class="ft_h">首日年化（%）</th>
                 <th class="ft_h">本轮收益（元）</th>
                 <th class="ft_h">收益率</th>
-                <th class="ft_h4">查看走势</th>
-                <th class="ft_h4">定投信息</th>
+                <th class="ft_h3">更新日期</th>
+                <th class="ft_h4">详细信息</th>
                 <th class="ft_h4">停止定投</th>
-                <th class="ft_h">评价</th>
+
             </tr>
             <c:forEach items="${showTrendList}" var="trend" varStatus="status">
                 <tr class="ft_row" id="tr_${status.index}">
@@ -67,10 +67,9 @@
                     <td>${trend.shourinianhua}</td>
                     <td>${trend.profit}</td>
                     <td>${trend.shouyirate}</td>
-                    <td style="padding:5px 0" align="center"><a href="">走势</a></td>
-                    <td style="padding:5px 0" align="center"><a href="">定投</a></td>
-                    <td style="padding:5px 0" align="center"><a href="#" onclick="Stop(${trend.fundcode})">停止</a></td>
-                    <td><a href="">评价</a></td>
+                     <td>${trend.date}</td>
+                    <td style="padding:5px 0" align="center"><a href="">查看</a></td>
+                    <td style="padding:5px 0" align="center"><a href="#" onclick="Stop(${trend})">停止</a></td>
                 </tr>
             </c:forEach>
         </table>
@@ -82,7 +81,7 @@
         var _row = table.rows;
         for(var i = 0;i < len;i++){
             var _cell = _row[i].cells;
-            var d=_cell[6].innerHTML;
+            var d=_cell[7].innerHTML;
             if(d>=0.44){
                 table.rows[i].style.backgroundColor = "#FFCC99";
             }
@@ -96,23 +95,11 @@
 
 </script>
 <script>
-    function Stop(fundcode){
-        var x;
-        var fundcode1=fundcode;
-    //  request.setAttribute("fundcode",fundcode1);%>
-        var r=confirm("是否停止定投基金"+fundcode+"?");
+    function Stop(trend){
+        var r=confirm("是否停止定投基金"+trend.fundcode+"?");
         if (r==true){
-           window.location.href = "StopInvest?fundcode="+fundcode;
-         //   document.chatform.action = "StopInvest?fundcode="+fundcode;
-       //     document.form.action="StopInvest";
-      //      document.form.submit();
-          //  document.chatform.action="StopInvest";
-         //   document.chatform.submit();
+           window.location.href = "StopInvest?investid="+trend.investid;
         }
-        else{
-            x="你按下了\"取消\"按钮!";
-        }
-      //  document.getElementById("demo").innerHTML=x;
     }
 
 </script>
