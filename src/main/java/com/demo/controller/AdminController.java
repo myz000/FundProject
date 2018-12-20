@@ -19,14 +19,14 @@ public class AdminController {
     @Autowired
     UserService userService;
 
-    @RequestMapping(value = "/admin_lookUser")
+    @RequestMapping(value = "/admin/lookUser")
     public String lookUsers(HttpSession session) {
         List<User> list = adminService.displayUsers("user");
         session.setAttribute("userlist", list);
         return "admin_lookUser";
     }
 
-    @RequestMapping(value = "/admin_lookUnUser")
+    @RequestMapping(value = "/admin/lookUnUser")
     public String lookUnUser(HttpSession session) {
         List<User> list = adminService.displayUsers("user");
         List<User> list1 = new LinkedList<User>();
@@ -51,7 +51,7 @@ public class AdminController {
         return "admin_changePassword";
     }
 
-    @PostMapping(value = "/authority")
+    @PostMapping(value = "/admin/authority")
     public String author(HttpSession session, String option) {
         String username = (String) session.getAttribute("user");
         User user = userService.findUserByName(username);
@@ -62,19 +62,19 @@ public class AdminController {
             user.setState(1);
         }
         userService.saveUser(user);
-        return "redirect:/admin_lookUser";
+        return "redirect:/admin/lookUser";
     }
 
-    @PostMapping(value = "/adchange")
+    @PostMapping(value = "/admin/adchange")
     public String adchange(HttpSession session, String password) {
         String username = (String) session.getAttribute("user");
         User user = userService.findUserByName(username);
         user.setPasswd(password);
         userService.saveUser(user);
-        return "redirect:/admin_lookUser";
+        return "redirect:/admin/lookUser";
     }
 
-    @PostMapping(value = "/chauthor")
+    @PostMapping(value = "/admin/chauthor")
     public String chauthor(HttpSession session, String[] radio) {
         LinkedList<User> list = (LinkedList<User>) session.getAttribute("userlist");
         for (String a : radio) {
@@ -82,6 +82,6 @@ public class AdminController {
             user.setState(1);
             userService.saveUser(user);
         }
-        return "redirect:/admin_lookUser";
+        return "redirect:/admin/lookUser";
     }
 }

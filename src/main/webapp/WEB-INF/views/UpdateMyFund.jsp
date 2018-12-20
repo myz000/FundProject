@@ -47,7 +47,7 @@
 <!--banner-->
 <div class="banner1">
     <div class="container">
-        <h3 class="animated wow slideInLeft" data-wow-delay=".5s"><a href="LookBoughtFund">我的基金</a> / <span>更新基金</span></h3>
+        <h3 class="animated wow slideInLeft" data-wow-delay=".5s"><a href="/user/LookBoughtFund">我的基金</a> / <span>更新基金</span></h3>
     </div>
 </div>
 <!--banner-->
@@ -139,13 +139,13 @@
                             $.ajax({
                             //几个参数需要注意一下
                                 type: "POST",//方法类型
-                                url: "/UpdateTrend" ,//url
+                                url: "/user/UpdateTrend" ,//url
                                 dataType: 'json',//预期服务器返回的数据类型
                                 data:$("#updateForm").serialize(),
                                 success: function (result) {
                                     console.log("log:"+result);//打印服务端返回的数据(调试用)
                                     if (result.stateCode=="200") {
-                                         window.location.href='/LookBoughtFund';
+                                         window.location.href='/user/LookBoughtFund';
                                     }
                                     else{
                                        label.innerText=result.message;

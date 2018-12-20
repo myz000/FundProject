@@ -20,11 +20,11 @@
 <!--banner-->
 <div class="banner1">
     <div class="container">
-        <h3 class="animated wow slideInLeft" data-wow-delay=".5s"><a href="/admin_lookUser">用户管理</a> / <span>修改用户密码</span></h3>
+        <h3 class="animated wow slideInLeft" data-wow-delay=".5s"><a href="/admin/lookUser">用户管理</a> / <span>修改用户密码</span></h3>
     </div>
 </div>
 <!--banner-->
-<form action="adchange" method="post">
+<form action="/admin/adchange" method="post">
     <div class="authority">
         <!--banner-->
         <div class="banner-info">

@@ -20,7 +20,7 @@
 <!--banner-->
 <div class="banner1">
     <div class="container">
-        <h3 class="animated wow slideInLeft" data-wow-delay=".5s"><a href="/admin_lookUser">主页</a> / <span>用户管理</span></h3>
+        <h3 class="animated wow slideInLeft" data-wow-delay=".5s"><a href="/admin/lookUser">主页</a> / <span>用户管理</span></h3>
     </div>
 </div>
 <!--banner-->
@@ -46,7 +46,7 @@
 <!--Fund-->
 
 <div class="ny_cont zml_time">
-    <form method="post" action="chauthor">
+    <form method="post" action="/admin/chauthor">
         <table class="table fund_table">
             <tr class="ft_row">
                 <th class="ft_h1">序号</th>

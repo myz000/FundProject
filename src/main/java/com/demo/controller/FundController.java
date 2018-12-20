@@ -68,15 +68,12 @@ public class FundController {
             @Param("fundname") String fundname,
             @Param("fundcode") String fundcode,
             HttpServletRequest request) {
-        System.out.println("WriteInvestInfor");
-        System.out.println(fundname);
-        System.out.println(fundcode);
         request.setAttribute("fundCode", fundcode);
         request.setAttribute("fundName", fundname);
         return "BuyFund";
     }
 
-    @PostMapping(value = "/BuyFund")
+    @PostMapping(value = "/user/BuyFund")
     public ResponseEntity buyFund(@Param("fundCode") String fundCode,
                                   @Param("fundName") String fundName,
                                   @Param("firstDate") String firstDate,
@@ -88,10 +85,8 @@ public class FundController {
                                   @Param("delayDays") String delayDays,
                                   @Param("platform") String platform,
                                   HttpSession session) {
-        System.out.println("---" + receivedDays);
         String userName = (String) session.getAttribute(WebSecurityConfig.SESSION_KEY);
         User user = userService.findUserByName(userName);
-        System.out.println(user.getUsername());
         Invest invest = new Invest();
         UUID uuid = UUID.randomUUID();
         invest.setId(uuid.toString());
@@ -127,15 +122,9 @@ public class FundController {
         return ResponseEntity.ok("");
     }
 
-    @GetMapping(value = "/LookBoughtFund")
+    @GetMapping(value = "/user/LookBoughtFund")
     public String LookBoughtFund(HttpSession session, HttpServletRequest request) {
-        System.out.println(WebSecurityConfig.SESSION_KEY);
         String userName = (String) session.getAttribute(WebSecurityConfig.SESSION_KEY);
-        if (userName == null) {
-            request.setAttribute("msg", "请先登录！");
-            System.out.println("请先登录");
-            return "Welcome";
-        }
         User user = userService.findUserByName(userName);
         List investList = investService.findInvestByUserId(user.getId());
         List showTrendList = new ArrayList();
@@ -157,18 +146,9 @@ public class FundController {
         return "MyFund";
     }
 
-    @GetMapping(value = "/toUpdateTrend")
+    @GetMapping(value = "/user/toUpdateTrend")
     public String toUpdateTrend(HttpSession session, HttpServletRequest request) {
         String userName = (String) session.getAttribute(WebSecurityConfig.SESSION_KEY);
-        String msg = (String) request.getAttribute("msg");
-        if (msg != null) {
-            request.setAttribute("msg", msg);
-        }
-        if (userName == null) {
-            request.setAttribute("msg", "请先登录！");
-            System.out.println("请先登录");
-            return "Welcome";
-        }
         List showList = getBoughtFund(userName);
         request.setAttribute("showTrendList", showList);
         return "UpdateMyFund";
@@ -196,7 +176,7 @@ public class FundController {
         return showTrendList;
     }
 
-    @PostMapping(value = "/UpdateTrend")
+    @PostMapping(value = "/user/UpdateTrend")
     public ResponseEntity UpdateTrend(String[] check,
                                       String date,
                                       String[] fundcode,
@@ -275,7 +255,7 @@ public class FundController {
         return Integer.parseInt(String.valueOf(between_days));
     }
 
-    @GetMapping(value = "/StopInvest")
+    @GetMapping(value = "/user/StopInvest")
     public String StopInvest(
             @Param("investId") String investId,
             HttpSession session, HttpServletRequest request) {

@@ -98,7 +98,7 @@
     function Stop(trend){
         var r=confirm("是否停止定投基金"+trend.fundcode+"?");
         if (r==true){
-           window.location.href = "StopInvest?investid="+trend.investid;
+           window.location.href = "/user/StopInvest?investid="+trend.investid;
         }
     }
 

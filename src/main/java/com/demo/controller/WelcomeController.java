@@ -66,7 +66,7 @@ public class WelcomeController {
         System.out.println(role);
         if (role.equals("admin")) {
             System.out.println("Enter the admin view");
-            return "redirect:/admin_lookUser";
+            return "redirect:/admin/lookUser";
         } else {
             return "Welcome";
         }
