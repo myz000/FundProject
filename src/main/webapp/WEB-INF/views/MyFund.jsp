@@ -53,7 +53,6 @@
                 <th class="ft_h3">更新日期</th>
                 <th class="ft_h4">详细信息</th>
                 <th class="ft_h4">停止定投</th>
-
             </tr>
             <c:forEach items="${showTrendList}" var="trend" varStatus="status">
                 <tr class="ft_row" id="tr_${status.index}">
@@ -67,9 +66,9 @@
                     <td>${trend.shourinianhua}</td>
                     <td>${trend.profit}</td>
                     <td>${trend.shouyirate}</td>
-                     <td>${trend.date}</td>
-                    <td style="padding:5px 0" align="center"><a href="">查看</a></td>
-                    <td style="padding:5px 0" align="center"><a href="#" onclick="Stop(${trend})">停止</a></td>
+                    <td>${trend.date}</td>
+                    <td style="padding:5px 0" align="center"><a href="/user/FundDetail?investId=${trend.investid}">查看</a></td>
+                    <td style="padding:5px 0" align="center"><a href="#" onclick="Stop('${trend.fundname}','${trend.investid}')">停止</a></td>
                 </tr>
             </c:forEach>
         </table>
@@ -95,10 +94,12 @@
 
 </script>
 <script>
-    function Stop(trend){
-        var r=confirm("是否停止定投基金"+trend.fundcode+"?");
+    function Stop(name,id){
+        var r=confirm("是否停止定投基金【"+name+"】?");
         if (r==true){
-           window.location.href = "/user/StopInvest?investid="+trend.investid;
+        window.location.href = "/user/StopInvest?investId="+id;
+
+
         }
     }
 

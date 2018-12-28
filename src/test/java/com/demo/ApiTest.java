@@ -5,6 +5,7 @@ import com.demo.api.JuHeApiService;
 import com.demo.api.ShowApiService;
 import com.demo.entity.Fund;
 import com.demo.entity.FundDetailInfo;
+import com.demo.entity.NetValue;
 import com.demo.entity.News;
 import com.demo.entity.apiBody.ApiBody;
 import com.demo.entity.apiBody.FundListApiBody;
@@ -66,5 +67,15 @@ public class ApiTest extends BaseTest {
     @Data
     public class CC {
         List<Fund> a;
+    }
+
+    @Test
+    public void testNetValue() {
+        NetValue v = showApiService.getNetValue("000064", "2018-12-07");
+        List<NetValue.netData> list = v.getData();
+        for (int i = 0; i < list.size(); i++) {
+            NetValue.netData n = list.get(i);
+            System.out.println(n.getDate() + "----" + n.getUnitVal());
+        }
     }
 }

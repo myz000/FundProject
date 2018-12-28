@@ -195,7 +195,7 @@
                 data: $('#buyFundForm').serialize(),
                 success: function (result) {
                     console.log("log:"+result);      //打印服务端返回的数据(调试用)
-                    window.location.href='/LookBoughtFund';
+                    window.location.href='/user/LookBoughtFund';
                 },
                 error : function(msg) {
                      console.log("msg:------------------ "+msg);

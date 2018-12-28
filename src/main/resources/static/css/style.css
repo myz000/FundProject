@@ -2668,8 +2668,34 @@ ul.address-text b {
 .pageSide{width:1000px; text-align: center;}
 
 /**--基金详情页--**/
-.Funddetails {
+.FundDetails {
   margin-top: 20px;
+}
+
+.FundDetails .fundGradeTable tr td,.FundDetails .fundExternalInfoTable tr td{
+  border:1px solid #333333;
+}
+
+.FundDetails tr{
+   padding:5px 5px;
+}
+
+.FundDetails tr td{
+width:300px;
+height:40px;
+
+}
+
+.FundDetails .fundGradeTable{
+   margin:20px 0;
+}
+
+.FundDetails .fundExternalInfoTable{
+ margin:50px 0;
+}
+
+.FundDetails .fundExternalInfoTable t{
+   font-style:bold;
 }
 
 

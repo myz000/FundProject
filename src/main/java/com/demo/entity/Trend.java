@@ -25,22 +25,10 @@ public class Trend {
     private double investcost;                //投入成本
     private long userid;                      //用户Id
     private String investid;
-
-    public Trend(long id, String fundcode, String currentdate, double property, double zhangdiefu, double chicangyingkui, int investdays, float shouyirate, double shourinianhua, double xirr, double profit, double investcost, long userid) {
-        this.id = id;
-        this.fundcode = fundcode;
-        this.currentdate = currentdate;
-        this.property = property;
-        this.zhangdiefu = zhangdiefu;
-        this.chicangyingkui = chicangyingkui;
-        this.investdays = investdays;
-        this.shouyirate = shouyirate;
-        this.shourinianhua = shourinianhua;
-        this.xirr = xirr;
-        this.profit = profit;
-        this.investcost = investcost;
-        this.userid = userid;
-    }
+    private double payments;
+    private double unitval;                   //单位净值
+    private double unitshare;                 //本次份额
+    private double totalshare;                //累计份额
 
     public Trend() {
 

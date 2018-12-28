@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Service
 @Component
@@ -23,23 +25,14 @@ public class TrendService {
         return trend;
     }
 
-    public ArrayList findTrendByUserId(long userId){
-        ArrayList trendList=null;
+    public List<Trend> findTrendsByInvestId(String investId) {
+        List<Trend> trendList = null;
         try{
-            trendList=trendRepository.findByUserId(userId);
+            trendList = trendRepository.findByInvestId(investId);
         }catch (Exception e){}
         return trendList;
     }
 
-
-    public Trend findLatestByInvestId(String investId) {
-        Trend trend = null;
-        try {
-            trend = trendRepository.findLatestByInvestId(investId);
-        } catch (Exception e) {
-        }
-        return trend;
-    }
 
     @Transactional
     public void saveTrend(Trend trend) {

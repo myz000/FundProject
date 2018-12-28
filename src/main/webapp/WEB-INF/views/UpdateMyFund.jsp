@@ -73,9 +73,11 @@
         </tr>
         <c:forEach items="${showTrendList}" var="trend" varStatus="status">
             <tr class="ft_row" id="tr_${status.index}">
-                <td>${status.index+1}<input type="hide" name="investid" value="${trend.investid}"></td>
-                <td><input type="checkbox" name="check" value="${status.index+1}" checked></td>
-                <td><input type="text" value="${trend.fundcode}" readonly name="fundcode" id="fundcode" style="border: none"></td>
+                <td>${status.index+1}<input type="hidden" name="investid" value="${trend.investid}"></td>
+                <td><input type="checkbox" name="check" value="${status.index+1}" checked>
+                    <input type="hidden" name="updateDate" value="${trend.date}">
+                </td>
+                <td><input type="text" value="${trend.fundcode}"  name="fundcode" id="fundcode" style="border: none"></td>
                 <td>${trend.fundname}</td>
                 <td><input type="text" name="property" value=" "></td>
                 <td><input type="text" name="zdf" value=" "></td>

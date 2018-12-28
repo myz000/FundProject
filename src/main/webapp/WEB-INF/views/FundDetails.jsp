@@ -40,11 +40,15 @@
                                </div>
                                </c:when>
                               <c:otherwise>
-    <div class="Funddetails">
+
+    <div class="FundDetails">
+
     <label>${Fund.fundFullInfo.fundName}(${Fund.fundFullInfo.fundCode})</label>
+    更新日期：${Fund.fundFullInfo.netValueDate}
+    <a href='WriteInvestInfor?fundname=${Fund.fundFullInfo.fundName}&fundcode=${Fund.fundFullInfo.fundCode}'>添加</a>
+    <div class="baseInfoTable">
     <table>
     <tr>
-    <td> 最新净值日期：${Fund.fundFullInfo.netValueDate}</td>
     <td>单位净值：${Fund.fundFullInfo.netValue}</td>
     <td>日增长率：${Fund.fundFullInfo.dayOfGrowth}</td>
     </tr>
@@ -58,7 +62,9 @@
     <td>上一年度收益率：${Fund.fundFullInfo.lastYear}</td>
     </tr>
     </table>
-
+    <div>
+    <img src="http://j4.dfcfw.com/charts/pic6/${Fund.fundFullInfo.fundCode}.png">
+    <div class="fundGradeTable">
      <table>
      <tr><th>评级时间</th><th>级别</th><th>评级机构</th>
      </tr>
@@ -70,45 +76,54 @@
             </tr>
       </c:forEach>
      </table>
+    </table>
+    </div>
 
+    <div class="fundExternalInfoTable">
     <table>
     <tr>
-    <td>基金类型</td>
+    <td class="t">基金类型</td>
     <td>${Fund.fundFullInfo.fundType}</td>
-    <td>基金公司名称</td>
+    <td class="t">基金公司名称</td>
     <td>${Fund.fundFullInfo.fundCompanyName}</td>
     </tr>
     <tr>
-        <td>销售状态</td>
+        <td class="t">销售状态</td>
         <td>${Fund.fundFullInfo.saleStatus}</td>
-        <td>可否购买</td>
+        <td class="t">可否购买</td>
         <td>${Fund.fundFullInfo.saleEnable}</td>
         </tr>
     <tr>
-        <td>基金管理人</td>
+        <td class="t">基金管理人</td>
         <td>
         <c:forEach items="${Fund.fundManagers}" var="manager">
         <a href="">${manager.name}</a>&nbsp
         </c:forEach>
         </td>
-        <td>风险级别</td>
+        <td class="t">风险级别</td>
         <td>${Fund.fundFullInfo.riskLevel}</td>
         </tr>
     <tr>
-        <td>买入费率</td>
+        <td class="t">买入费率</td>
         <td>${Fund.fundFullInfo.manageRate}</td>
-        <td>托管费</td>
+        <td class="t">托管费</td>
                     <td>${Fund.fundFullInfo.trusteeRate}</td>
         </tr>
     </table>
+    </div>
+
+    <div class="fundStrategy">
     <label>投资理念</label>
     <p>${Fund.fundFullInfo.investPhilosophy}</p>
     <label>基金策略</label>
     <p>${Fund.fundFullInfo.investStrategy}</p>
     </div>
+
+
 </div>
 </c:otherwise>
 </c:choose>
+<div>
 <jsp:include page="footer.jsp"/>
 </body>
 </html>
