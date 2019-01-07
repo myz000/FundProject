@@ -2,7 +2,9 @@ package com.demo.entity;
 
 import lombok.Data;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 
 @Entity
@@ -10,7 +12,7 @@ import java.io.Serializable;
 @Data
 public class User implements Serializable {
     @Id
-    private long id;
+    private String id;
     private String username;
     private String passwd;
     private String role;
@@ -21,13 +23,19 @@ public class User implements Serializable {
     private String sex;
 
 
-
-    public User(long id,String username,String passwd,String role,
-                String telephone,String email,int state,String salt,String sex){
-           this.id=id; this.username=username; this.passwd=passwd;
-           this.role=role; this.telephone=telephone; this.email=email;
-           this.state=state; this.salt=salt;
-           this.sex=sex;
+    public User(String id, String username, String passwd, String role,
+                String telephone, String email, int state, String salt, String sex) {
+        this.id = id;
+        this.username = username;
+        this.passwd = passwd;
+        this.role = role;
+        this.telephone = telephone;
+        this.email = email;
+        this.state = state;
+        this.salt = salt;
+        this.sex = sex;
     }
-    public User(){}
+
+    public User() {
+    }
 }

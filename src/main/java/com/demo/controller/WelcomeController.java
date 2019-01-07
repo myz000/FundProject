@@ -136,7 +136,7 @@ public class WelcomeController {
         user.setTelephone(Phone);
         if (radio.equals("男")) user.setSex("男");
         else user.setSex("女");
-        user.setId(Long.parseLong(Id));
+        user.setId(Id);
         System.out.println(user.getId());
         user.setState(0);
         Map<String, String> m = userService.register(user);

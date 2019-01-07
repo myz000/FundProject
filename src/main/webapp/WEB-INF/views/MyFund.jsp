@@ -57,7 +57,7 @@
             <c:forEach items="${showTrendList}" var="trend" varStatus="status">
                 <tr class="ft_row" id="tr_${status.index}">
                     <td>${status.index+1}</td>
-                    <td>${trend.fundcode}</td>
+                    <td><a href="/GetFundDetails?fundCode=${trend.fundcode}">${trend.fundcode}</a></td>
                     <td>${trend.fundname}</td>
                     <td>${trend.platform}</td>
                     <td>${trend.investdays}</td>

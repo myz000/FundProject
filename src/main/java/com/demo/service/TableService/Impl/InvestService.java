@@ -25,7 +25,7 @@ public class InvestService {
     }
 
 
-    public ArrayList findInvestByUserId(long userId) {
+    public ArrayList findInvestByUserId(String userId) {
         ArrayList investList = null;
         try {
             investList = investRepository.findByUserId(userId);

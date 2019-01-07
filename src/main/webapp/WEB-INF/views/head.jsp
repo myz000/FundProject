@@ -33,7 +33,7 @@
                                 <li class="menu__item"><a href="/news" class="menu__link" ><span class="menu__helper">新闻中心</span></a></li>
                                 <li class="menu__item"><a href="TransferDoor.jsp" class="menu__link"><span class="menu__helper">传送门</span></a></li>
                                 <li class="menu__item"><a href="/user/LookBoughtFund" class="menu__link"><span class="menu__helper">我的基金</span></a></li>
-                                <li class="menu__item"><a href="Personal.jsp" class="menu__link"><span class="menu__helper">个人中心</span></a></li>
+                                <li class="menu__item"><a href="/user/personal" class="menu__link"><span class="menu__helper">个人中心</span></a></li>
                                 <li class="menu__item"><a href="contact.jsp" class="menu__link"><span class="menu__helper">联系我们</span></a></li> </ul>
                         </nav>
 

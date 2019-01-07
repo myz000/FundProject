@@ -36,6 +36,7 @@ public class News {
         private List<Img> imageurls;
         private String desc;
         private String channelName;
+        private List<FeedBackTag> feedback_tag;
     }
 
     @Data
@@ -43,5 +44,13 @@ public class News {
         private String url;
         private Integer height;
         private Integer width;
+    }
+
+    @Data
+    public static class FeedBackTag {
+        private long id;
+        private String tag_detail;
+        private String name;
+        private int type;
     }
 }

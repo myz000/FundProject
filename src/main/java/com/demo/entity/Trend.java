@@ -23,7 +23,7 @@ public class Trend {
     private double xirr;                      //xirr年化
     private double profit;                    //本轮收益
     private double investcost;                //投入成本
-    private long userid;                      //用户Id
+    private String userid;                      //用户Id
     private String investid;
     private double payments;
     private double unitval;                   //单位净值

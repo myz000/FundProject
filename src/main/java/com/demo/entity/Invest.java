@@ -1,10 +1,12 @@
 package com.demo.entity;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 
 @Entity
-@Table(name="tbl_invest")
+@Table(name = "tbl_invest")
 public class Invest {
     @Id
     private String id;                  //ID 自增
@@ -15,14 +17,14 @@ public class Invest {
     private double amountofinvest;      //每次定投金额
     private double alreadyincome;       //已实现收益
     private int state;                  //状态       -1：未完结   0-已停止   1-定投中
-    private long userid;                //用户ID
+    private String userid;              //用户ID
     private float fee;                  //卖出时手续费  （0~1）
     private int receiveddays;           //卖出到账天数
     private int delaydays;              //结算延迟天数
     private double unfinish;            //未完结金额
     private String platform;            //购买平台
 
-    public Invest(String id, String fundcode, String firstdate, String investmode, double amountofinvest, double alreadyincome, int state, long userid, float fee, int receiveddays, int delaydays, double unfinish, String platform) {
+    public Invest(String id, String fundcode, String firstdate, String investmode, double amountofinvest, double alreadyincome, int state, String userid, float fee, int receiveddays, int delaydays, double unfinish, String platform) {
         this.id = id;
         this.fundcode = fundcode;
         this.firstdate = firstdate;
@@ -34,8 +36,8 @@ public class Invest {
         this.fee = fee;
         this.receiveddays = receiveddays;
         this.delaydays = delaydays;
-        this.unfinish=unfinish;
-        this.platform=platform;
+        this.unfinish = unfinish;
+        this.platform = platform;
     }
 
     public Invest() {
@@ -107,11 +109,11 @@ public class Invest {
         this.state = state;
     }
 
-    public long getUserid() {
+    public String getUserid() {
         return userid;
     }
 
-    public void setUserid(long userid) {
+    public void setUserid(String userid) {
         this.userid = userid;
     }
 
@@ -138,6 +140,7 @@ public class Invest {
     public void setDelaydays(int delaydays) {
         this.delaydays = delaydays;
     }
+
     public double getUnfinish() {
         return unfinish;
     }
@@ -145,6 +148,7 @@ public class Invest {
     public void setUnfinish(double unfinish) {
         this.unfinish = unfinish;
     }
+
     public String getPlatform() {
         return platform;
     }

@@ -1,24 +1,28 @@
 package com.demo.entity;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
-@Entity
-@Table(name="tbl_loginticket")
-public class LoginTicket {
-       @Id
-       private long id;
-       private long userid;
-       private Date expired;
-       private int status;
-       private String ticket;
 
-    public void LoginTicket(){}
+@Entity
+@Table(name = "tbl_loginticket")
+public class LoginTicket {
+    @Id
+    private long id;
+    private String userid;
+    private Date expired;
+    private int status;
+    private String ticket;
+
+    public void LoginTicket() {
+    }
 
     public void setId(long id) {
         this.id = id;
     }
 
-    public void setUserid(long userid) {
+    public void setUserid(String userid) {
         this.userid = userid;
     }
 
@@ -38,7 +42,7 @@ public class LoginTicket {
         return id;
     }
 
-    public long getUserid() {
+    public String getUserid() {
         return userid;
     }
 

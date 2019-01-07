@@ -1358,7 +1358,7 @@ text-align:center;
     margin-bottom: 5px;
 }
 
-.changeInformation input[type="submit"] {
+.changeInformation input[type="submit"],.changeInformation input[type="button"] {
     background:#05222A;
     color: #fff;
     font-size: 1.5em;
@@ -1374,7 +1374,7 @@ text-align:center;
     margin-top: .5em;
     font-family: 'Josefin Sans', sans-serif;
 }
-.changeInformation input[type="submit"]:hover {
+.changeInformation input[type="submit"],.changeInformation input[type="button"]:hover {
     background:#02B875;
 }
 /*--ChangeInformation--*/

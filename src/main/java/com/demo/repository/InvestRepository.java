@@ -16,12 +16,11 @@ public interface InvestRepository extends JpaRepository<Invest, Long> {
     Invest findById(@Param("id") String id);
 
     @Query("select t from Invest t where t.userid = :userid")
-    ArrayList findByUserId(@Param("userid") long userid);
+    ArrayList findByUserId(@Param("userid") String userid);
 
     @Modifying
     @Transactional
     @Query("update Invest t set t.state = :state where t.id=:id")
     void UpdateStateById(@Param("id") String id, @Param("state") int state);
-
 
 }

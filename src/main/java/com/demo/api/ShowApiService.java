@@ -29,6 +29,7 @@ public class ShowApiService {
         Map<String, Class> classMap = new HashMap<String, Class>();
         classMap.put("contentlist", News.NewsItem.class);
         classMap.put("imageurls", News.Img.class);
+        classMap.put("feedback_tag", News.FeedBackTag.class);
         ApiBody apiBody = (ApiBody) JSONObject.toBean(body, ApiBody.class, classMap);
         return apiBody;
     }

@@ -32,7 +32,7 @@ public class UserService {
         return user;
     }
 
-    public User findUserById(long id) {
+    public User findUserById(String id) {
         User user = null;
         try {
             user = userRepository.findById(id);
@@ -50,7 +50,7 @@ public class UserService {
         return loginTicket;
     }
 
-    public String addLoginTicket(long userId) {
+    public String addLoginTicket(String userId) {
         Random random = new Random();
         LoginTicket loginTicket = new LoginTicket();
         loginTicket.setUserid(userId);
