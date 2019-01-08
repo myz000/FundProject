@@ -23,4 +23,9 @@ public interface InvestRepository extends JpaRepository<Invest, Long> {
     @Query("update Invest t set t.state = :state where t.id=:id")
     void UpdateStateById(@Param("id") String id, @Param("state") int state);
 
+    @Modifying
+    @Transactional
+    @Query(value = "delete from Invest t where t.userid=:userId ")
+    int deleteByUserId(@Param("userId") String userId);
+
 }

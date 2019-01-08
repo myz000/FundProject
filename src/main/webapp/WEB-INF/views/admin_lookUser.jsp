@@ -26,18 +26,29 @@
 <!--banner-->
 
 <!--Search-->
-<form action="" method="post">
+<form action="/admin/searchUser" method="POST">
     <div class="content">
         <div class="serach-w3agile">
             <div class="container">
                 <div class="place-grids">
                     <div class="col-md-3 place-grid">
-                        <input class="sel" type="text" name="code">
+                        <input class="sel" type="text" name="searchText">
                     </div>
-                    <div class="col-md-2 place-grid">
+                     <div class="col-md-2 place-grid">
+                        <select class="sel" name="Filter">
+                           <option value="name">用户名称</option>
+                           <option value="id">身份证号</option>
+                           <option value="phone">电话号码</option>
+                           <option value="email">邮箱</option>
+                        </select>
+                     </div>
+                     <div class="col-md-2 place-grid">
                             <input type="submit" value="Search">
-                    </div>
-                    <div class="clearfix"></div>
+                     </div>
+                      <div class="col-md-2 place-grid">
+                           <input type="button" value="添加用户">
+                      </div>
+                     <div class="clearfix"></div>
                 </div>
             </div>
         </div>
@@ -58,7 +69,9 @@
             <th class="ft_h2">状态</th>
             <th class="ft_h">权限设置</th>
             <th class="ft_h">重置密码</th>
+            <th class="ft_h">删除用户</th>
         </tr>
+
         <c:forEach items="${userlist}" var="user" varStatus="status">
             <tr class="ft_row">
                 <td>${status.index+1}</td>
@@ -79,12 +92,37 @@
                         <td>待审核</td>
                     </c:otherwise>
                 </c:choose>
-                <td><a href="authorityServlet?user=${user.getUsername()}">权限设置</a></td>
-                <td><a href="changePassword?user=${user.getUsername()}">重置密码</a></td>
+                <td><a href="/admin/authorityServlet?user=${user.username}">设置</a></td>
+                <td><a href="/admin/changePassword?user=${user.username}">重置</a></td>
+                <td><a href="#" onclick="deleteUser('${user.username}')">删除</a></td>
             </tr>
         </c:forEach>
+
     </table>
 </div>
 <jsp:include page="footer.jsp"/>
+<script>
+function deleteUser(username){
+    var r=confirm("是否删除用户【"+username+"】?");
+            if (r==true){
+            $.ajax({
+                                //几个参数需要注意一下
+                                    type: "POST",//方法类型
+                                    dataType: 'json',//预期服务器返回的数据类型
+                                    url: "/admin/deleteUser?userName="+username ,//url
+                                    success: function (result) {
+                                    if(result.hasOwnProperty("state")){
+                                    alert(result.msg+",3秒后页面自动跳转！");
+                                    setTimeout(window.location.href='/admin/lookUser',3);
+                                    }
+                                    else{
+                                    alert(result.msg);
+                                    }
+                                    }
+                                });
+            }
+}
+</script>
+
 </body>
 </html>

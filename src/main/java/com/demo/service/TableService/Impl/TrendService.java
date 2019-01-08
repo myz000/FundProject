@@ -7,8 +7,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -17,19 +15,21 @@ public class TrendService {
     @Autowired
     private TrendRepository trendRepository;
 
-    public Trend findTrendById(long id){
-        Trend trend=null;
-        try{
-           trend=trendRepository.findById(id);
-        }catch (Exception e){}
+    public Trend findTrendById(long id) {
+        Trend trend = null;
+        try {
+            trend = trendRepository.findById(id);
+        } catch (Exception e) {
+        }
         return trend;
     }
 
     public List<Trend> findTrendsByInvestId(String investId) {
         List<Trend> trendList = null;
-        try{
+        try {
             trendList = trendRepository.findByInvestId(investId);
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         return trendList;
     }
 
@@ -40,8 +40,14 @@ public class TrendService {
     }
 
     @Transactional
-    public void deleteTrendById(long id){trendRepository.delete(id);}
+    public void deleteTrendById(long id) {
+        trendRepository.delete(id);
+    }
 
+    @Transactional
+    public void deleteTrendsByUserId(String userId) {
+        trendRepository.deleteByUserId(userId);
+    }
 
 
 }

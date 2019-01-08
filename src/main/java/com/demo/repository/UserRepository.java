@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, String> {
 
     @Query("select t from User t where t.username = :username")
     User findByUserName(@Param("username") String username);
@@ -19,4 +19,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("select t from User t where t.role = :role")
     List<User> findUsers(@Param("role") String role);
+
 }

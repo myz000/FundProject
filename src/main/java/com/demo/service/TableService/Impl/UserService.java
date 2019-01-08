@@ -19,6 +19,10 @@ public class UserService {
     @Autowired
     private TicketRepository ticketRepository;
 
+    public List<User> findAllUsers() {
+        return userRepository.findAll();
+    }
+
     public User findUserByName(String username) {
         System.out.println("findUserByName");
         User user = null;
@@ -133,7 +137,7 @@ public class UserService {
     }
 
     @Transactional
-    public void deleteUserById(long id) {
+    public void deleteUserById(String id) {
         userRepository.delete(id);
     }
 }

@@ -50,5 +50,10 @@ public class InvestService {
         investRepository.delete(id);
     }
 
+    @Transactional
+    public void deleteInvestsByUserId(String userId) {
+        investRepository.deleteByUserId(userId);
+    }
+
 
 }

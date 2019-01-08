@@ -18,7 +18,7 @@ public class User implements Serializable {
     private String role;
     private String telephone;
     private String email;
-    private int state;
+    private int state;       //0-待审核    1-正常   2-冻结
     private String salt;
     private String sex;
 
