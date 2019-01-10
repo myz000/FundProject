@@ -26,13 +26,21 @@
 <!--banner-->
 
 <!--Search-->
-<form action="" method="post">
+<form action="/admin/searchUnUser" method="post">
     <div class="content">
         <div class="serach-w3agile">
             <div class="container">
                 <div class="place-grids">
                     <div class="col-md-3 place-grid">
-                        <input class="sel" type="text" name="code">
+                        <input class="sel" type="text" name="searchText">
+                    </div>
+                    <div class="col-md-2 place-grid">
+                        <select class="sel" name="Filter">
+                            <option value="name">用户名称</option>
+                            <option value="id">身份证号</option>
+                            <option value="phone">电话号码</option>
+                            <option value="email">邮箱</option>
+                        </select>
                     </div>
                     <div class="col-md-2 place-grid">
                         <input type="submit" value="Search">
@@ -46,7 +54,7 @@
 <!--Fund-->
 
 <div class="ny_cont zml_time">
-    <form method="post" action="/admin/chauthor">
+    <form method="post" action="/admin/checkUser">
         <table class="table fund_table">
             <tr class="ft_row">
                 <th class="ft_h1">序号</th>
@@ -82,7 +90,9 @@
                     <td><input type="radio" name="radio" value="${status.index+1}"/> </td>
                 </tr>
             </c:forEach>
+            <div class="check_submit">
             <input type="submit" value="通过"/>
+            </div>
         </table>
     </form>
 </div>

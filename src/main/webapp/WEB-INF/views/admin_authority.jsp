@@ -43,17 +43,15 @@
                 <li>
                     <ul class="address-text">
                         <li><b>姓名:</b></li>
-                        <li><b>${user}</b></li>
+                        <li><b><input type="text" value="${user.username}" name="username" readonly style="border:none;"></b></li>
                     </ul>
                 </li>
                 <li>
                     <ul class="address-text">
                         <li><b>角色:</b></li>
                         <li>
-                            <select class="authority_select">
-                                <option>用户</option>
-                                <option>经理</option>
-                            </select>
+                            <input type="radio" name="Role" value="user" <c:if test="${user.role== 'user'}">checked="checked"</c:if>>用户
+                            <input type="radio" name="Role" value="manager" <c:if test="${user.role== 'manager'}">checked="checked"</c:if>>经理
                         </li>
                     </ul>
                 </li>
@@ -61,10 +59,9 @@
                     <ul class="address-text">
                         <li><b>状态:</b></li>
                         <li>
-                            <select class="authority_select" name="option">
-                                <option value="1">正常</option>
-                                <option value="2">冻结</option>
-                            </select>
+                            <input type="radio" name="State" value="0" <c:if test="${user.state== 0}">checked="checked"</c:if>>待审核
+                            <input type="radio" name="State" value="1" <c:if test="${user.state== 1}">checked="checked"</c:if>>正常
+                            <input type="radio" name="State" value="2" <c:if test="${user.state== 2}">checked="checked"</c:if>>冻结
                         </li>
                     </ul>
                 </li>

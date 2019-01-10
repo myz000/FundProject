@@ -45,9 +45,6 @@
                      <div class="col-md-2 place-grid">
                             <input type="submit" value="Search">
                      </div>
-                      <div class="col-md-2 place-grid">
-                           <input type="button" value="添加用户">
-                      </div>
                      <div class="clearfix"></div>
                 </div>
             </div>
@@ -92,8 +89,8 @@
                         <td>待审核</td>
                     </c:otherwise>
                 </c:choose>
-                <td><a href="/admin/authorityServlet?user=${user.username}">设置</a></td>
-                <td><a href="/admin/changePassword?user=${user.username}">重置</a></td>
+                <td><a href="/admin/to-authority?username=${user.username}">设置</a></td>
+                <td><a href="/admin/to-changePassword?username=${user.username}">重置</a></td>
                 <td><a href="#" onclick="deleteUser('${user.username}')">删除</a></td>
             </tr>
         </c:forEach>

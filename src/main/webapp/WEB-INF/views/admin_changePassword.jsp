@@ -24,7 +24,7 @@
     </div>
 </div>
 <!--banner-->
-<form action="/admin/adchange" method="post">
+<form id="cpForm" name="cpForm">
     <div class="authority">
         <!--banner-->
         <div class="banner-info">
@@ -32,18 +32,17 @@
                 <h1>Hi !</h1>
                 <h6>修改密码</h6>
                 <ul class="address">
-
-                    <li>
+                 <li>
                         <ul class="address-text">
                             <li><b>姓名:</b></li>
-                            <li><b>${user}</b></li>
+                            <li><b><input type="text" value="${user.username}" name="username" readonly style="border:none;"></b></li>
                         </ul>
                     </li>
                     <li>
                         <ul class="address-text">
                             <li><b>修改密码:</b></li>
                             <li>
-                                <input type="password" class="authority_select" id="password1">
+                                <input type="password"  id="password1" name="password1">
                             </li>
                         </ul>
                     </li>
@@ -51,15 +50,15 @@
                         <ul class="address-text">
                             <li><b>再次输入密码:</b></li>
                             <li>
-                                <input type="password" class="authority_select" id="password2" name="password"  onkeyup="validate()">
+                                <input type="password"  id="password2" name="password2">
                             </li>
                         </ul>
                        <p class="cp_tishi">
-                       <span id="tishi"></span>
+                       <span id="tishi" style="color:red;"></span>
                        </p>
                     </li>
                     <div class="authority_submit">
-                        <input type="submit" value="确定">
+                        <input type="button" value="确定" onclick="validate()">
                     </div>
                 </ul>
             </div>
@@ -70,18 +69,23 @@
 <jsp:include page="footer.jsp"/>
 <script>
     function validate() {
-        var pwd1 = document.getElementById("password1").value;
-        var pwd2 = document.getElementById("password2").value;
-
-        <!-- 对比两次输入的密码 -->
-        if(pwd1 == pwd2)
-        {
-            document.getElementById("tishi").style.display="none";
-        }
-        else {
-            document.getElementById("tishi").style.display="";
-            document.getElementById("tishi").innerHTML="<p style='color: red'>两次密码不相同</p>";
-        }
+          $.ajax({
+                            //几个参数需要注意一下
+                                type: "POST",//方法类型
+                                dataType: 'json',//预期服务器返回的数据类型
+                                url: "/admin/changePassword" ,//url
+                                data: $('#cpForm').serialize(),
+                                success: function (result) {
+                                    if(result.hasOwnProperty("state")){
+                                        alert(result.msg);
+                                        location.reload();
+                                    }
+                                    else{
+                                        var label=document.getElementById("tishi");
+                                        label.innerText=result.msg;
+                                    }
+                                }
+                            });
     }
 </script>
 </body>
