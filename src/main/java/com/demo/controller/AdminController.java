@@ -1,6 +1,8 @@
 package com.demo.controller;
 
+import com.demo.entity.Inform;
 import com.demo.entity.User;
+import com.demo.service.TableService.Impl.InformService;
 import com.demo.service.TableService.Impl.InvestService;
 import com.demo.service.TableService.Impl.TrendService;
 import com.demo.service.TableService.Impl.UserService;
@@ -14,9 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Controller
 public class AdminController {
@@ -26,6 +27,8 @@ public class AdminController {
     TrendService trendService;
     @Autowired
     InvestService investService;
+    @Autowired
+    InformService informService;
 
     @RequestMapping(value = "/admin/lookUser")
     public String lookUsers(HttpSession session) {
@@ -170,5 +173,46 @@ public class AdminController {
         }
         session.setAttribute("userlist", userList);
         return "admin_check";
+    }
+
+    @RequestMapping(value = "/admin/informs")
+    public String getInforms(HttpServletRequest request) {
+        List<Inform> informList = informService.getInformList();
+        if (informList == null) {
+            informList = Collections.emptyList();
+        }
+        request.setAttribute("informList", informList);
+        return "admin_inform";
+    }
+
+    @RequestMapping(value = "/admin/to-add-inform", method = RequestMethod.GET)
+    public String toAddInform() {
+        return "admin_add_inform";
+    }
+
+    @RequestMapping(value = "/admin/inform-add", method = RequestMethod.POST)
+    public ResponseEntity addInfrom(
+            @RequestParam(value = "title") String title,
+            @RequestParam(value = "content") String content,
+            @RequestParam(value = "state") String state,
+            HttpSession session
+    ) {
+        Inform inform = new Inform();
+        inform.setTitle(title);
+        inform.setContent(content);
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        Date date = new Date(System.currentTimeMillis());
+        inform.setTime(df.format(date));
+        inform.setAuthor((String) session.getAttribute("username"));
+        inform.setState(Integer.parseInt(state));
+        informService.saveInform(inform);
+        return ResponseEntity.ok(true);
+    }
+
+    @RequestMapping(value = "/admin/inform_detail", method = RequestMethod.GET)
+    public String getInformDetails(@RequestParam("id") Long id, HttpServletRequest request) {
+        Inform inform = informService.findInformById(id);
+        request.setAttribute("inform", inform);
+        return "admin_inform_detail";
     }
 }

@@ -13,6 +13,6 @@ public interface InformRepository extends JpaRepository<Inform, Long> {
     @Query("select t from Inform t where t.id = :id")
     Inform findById(@Param("id") long id);
 
-    @Query("select t from Invest t order by pubTime desc")
+    @Query("select t from Inform t order by time desc")
     ArrayList<Inform> findList();
 }

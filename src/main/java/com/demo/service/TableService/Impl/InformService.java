@@ -2,7 +2,6 @@ package com.demo.service.TableService.Impl;
 
 import com.demo.entity.Inform;
 import com.demo.repository.InformRepository;
-import com.demo.service.TableService.InformService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -12,16 +11,16 @@ import java.util.ArrayList;
 
 @Service
 @Component
-public class InformServiceImpl implements InformService {
+public class InformService {
     @Autowired
     InformRepository informRepository;
 
-    @Override
-    public Inform findInfromById(Long id) {
+
+    public Inform findInformById(long id) {
         return informRepository.findById(id);
     }
 
-    @Override
+
     public ArrayList<Inform> getInformList() {
         return informRepository.findList();
     }
