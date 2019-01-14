@@ -215,4 +215,56 @@ public class AdminController {
         request.setAttribute("inform", inform);
         return "admin_inform_detail";
     }
+
+    @RequestMapping(value = "/admin/to_updateInform", method = RequestMethod.GET)
+    public String toUpdateInform(@RequestParam("id") Long id, HttpServletRequest request) {
+        Inform inform = informService.findInformById(id);
+        request.setAttribute("inform", inform);
+        return "admin_update_inform";
+    }
+
+    @RequestMapping(value = "/admin/inform-update", method = RequestMethod.POST)
+    public ResponseEntity updateInfrom(
+            @RequestParam(value = "id") Long id,
+            @RequestParam(value = "title") String title,
+            @RequestParam(value = "content") String content,
+            @RequestParam(value = "state") String state,
+            HttpSession session
+    ) {
+        Inform inform = new Inform();
+        inform.setId(id);
+        inform.setTitle(title);
+        inform.setContent(content);
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        Date date = new Date(System.currentTimeMillis());
+        inform.setTime(df.format(date));
+        inform.setAuthor((String) session.getAttribute("username"));
+        inform.setState(Integer.parseInt(state));
+        informService.saveInform(inform);
+        return ResponseEntity.ok(true);
+    }
+
+    @RequestMapping(value = "/admin/delete-inform", method = RequestMethod.POST)
+    public ResponseEntity deleteInform(@RequestParam("id") Long id) {
+        informService.deleteInformById(id);
+        return ResponseEntity.ok(true);
+    }
+
+    @RequestMapping(value = "/admin/searchInform", method = RequestMethod.POST)
+    public String searchInform(
+            @RequestParam("searchText") String searchText,
+            @RequestParam("Filter") String Filter,
+            HttpServletRequest request
+    ) {
+        List<Inform> informList = informService.getInformList();
+        if (!searchText.equals("")) {
+            if (Filter.equals("title")) {
+                informList.removeIf(r -> !r.getTitle().contains(searchText));
+            } else if (Filter.equals("author")) {
+                informList.removeIf(r -> !r.getAuthor().contains(searchText));
+            }
+        }
+        request.setAttribute("informList", informList);
+        return "admin_inform";
+    }
 }

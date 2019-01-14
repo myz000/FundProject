@@ -1,8 +1,10 @@
 package com.demo.controller;
 
+import com.demo.entity.Inform;
 import com.demo.entity.User;
 import com.demo.entity.apiBody.NoteBody;
 import com.demo.service.Impl.NoteServiceImpl;
+import com.demo.service.TableService.Impl.InformService;
 import com.demo.service.TableService.Impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -12,7 +14,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Pattern;
 
 @Controller
@@ -21,6 +25,8 @@ public class UserController {
     private UserService userService;
     @Autowired
     private NoteServiceImpl noteServiceImpl = new NoteServiceImpl();
+    @Autowired
+    private InformService informService;
 
     @RequestMapping(value = "/index")
     public String index() {
@@ -115,4 +121,35 @@ public class UserController {
         return ResponseEntity.ok(m);
     }
 
+    @RequestMapping(value = "/informs", method = RequestMethod.GET)
+    public String getInforms(HttpServletRequest request) {
+        List<Inform> informList = informService.getInformList();
+        if (informList == null) {
+            informList = Collections.emptyList();
+        } else {
+            informList.removeIf(r -> r.getState() != 1);
+        }
+        request.setAttribute("informList", informList);
+        return "inform";
+    }
+
+    @RequestMapping(value = "/inform_detail", method = RequestMethod.GET)
+    public String getInformDetails(@RequestParam("id") Long id, HttpServletRequest request) {
+        Inform inform = informService.findInformById(id);
+        request.setAttribute("inform", inform);
+        return "inform_detail";
+    }
+
+    @RequestMapping(value = "/searchInform", method = RequestMethod.POST)
+    public String searchInform(
+            @RequestParam("searchText") String searchText,
+            HttpServletRequest request
+    ) {
+        List<Inform> informList = informService.getInformList();
+        if (!searchText.equals("")) {
+            informList.removeIf(r -> !r.getTitle().contains(searchText));
+        }
+        request.setAttribute("informList", informList);
+        return "inform";
+    }
 }

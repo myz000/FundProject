@@ -20,13 +20,13 @@
 <!--banner-->
 <div class="banner1">
     <div class="container">
-        <h3 class="animated wow slideInLeft" data-wow-delay=".5s"><a href="/admin/lookUser">主页</a> / <span>用户管理</span></h3>
+        <h3 class="animated wow slideInLeft" data-wow-delay=".5s"><a href="/admin/lookUser">主页</a> / <span>通知管理</span></h3>
     </div>
 </div>
 <!--banner-->
 
 <!--Search-->
-<form action="/admin/searchUser" method="POST">
+<form action="/admin/searchInform" method="POST">
     <div class="content">
         <div class="serach-w3agile">
             <div class="container">
@@ -36,10 +36,8 @@
                     </div>
                      <div class="col-md-2 place-grid">
                         <select class="sel" name="Filter">
-                           <option value="name">用户名称</option>
-                           <option value="id">身份证号</option>
-                           <option value="phone">电话号码</option>
-                           <option value="email">邮箱</option>
+                           <option value="title">标题</option>
+                           <option value="author">作者</option>
                         </select>
                      </div>
                      <div class="col-md-2 place-grid">
@@ -82,14 +80,31 @@
                         <td style="background:yellow;">仅管理员可见</td>
                     </c:otherwise>
                 </c:choose>
-                <td><a href="#">编辑</a></td>
-                <td><a href="#">删除</a></td>
+                <td><a href="/admin/to_updateInform?id=${inform.id}">编辑</a></td>
+                <td><a href="#" onclick="deleteInform(${inform.id})">删除</a></td>
             </tr>
         </c:forEach>
 
     </table>
 </div>
+<script>
+function deleteInform(id){
+                    var r=confirm("确定删除该条通知?");
+                         if (r==true){
+                    $.ajax({
+                    //几个参数需要注意一下
+                        type: "POST",//方法类型
+                        dataType: 'json',//预期服务器返回的数据类型
+                        url: "/admin/delete-inform?id="+id ,//url
+                        success: function (result) {
+                            if(result==true){
+                               window.location.href='/admin/informs';
+                            }
+                        }
+                    });
+                    }
+                }
+</script>
 <jsp:include page="footer.jsp"/>
-
 </body>
 </html>

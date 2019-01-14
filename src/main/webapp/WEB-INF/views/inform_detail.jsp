@@ -7,7 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ include file="admin_head.jsp"%>
+<%@ include file="head.jsp"%>
 <html>
 <head>
     <title>Title</title>
@@ -26,7 +26,7 @@
 <body>
 <div class="banner1">
     <div class="container">
-        <h3 class="animated wow slideInLeft" data-wow-delay=".5s"><a href="/admin/informs">通知管理</a> / <span>通知内容</span></h3>
+        <h3 class="animated wow slideInLeft" data-wow-delay=".5s"><a href="/informs">通知公告</a> / <span>通知内容</span></h3>
     </div>
 </div>
 
@@ -44,13 +44,8 @@ ${inform.content}
 </textarea>
 </p>
 <br>
-
-<div class="formButton">
-      <input type="button" value="编辑" onclick="window.location.href='/admin/to_updateInform?id=${inform.id}'">
-</div>
-
 </div>
 </div>
-
+<jsp:include page="footer.jsp"/>
 </body>
 </html>

@@ -29,7 +29,7 @@
                             <ul class="nav navbar-nav menu__list">
                                 <li class="menu__item"><a href="/admin/lookUser" class="menu__link"><span class="menu__helper">用户管理</span></a></li>
                                 <li class="menu__item"><a href="/admin/lookUnUser" class="menu__link"><span class="menu__helper">用户审核</span></a></li>
-                                <li class="menu__item"><a href="/admin/informs" class="menu__link"><span class="menu__helper">资讯管理</span></a></li>
+                                <li class="menu__item"><a href="/admin/informs" class="menu__link"><span class="menu__helper">通知管理</span></a></li>
                                </ul>
                         </nav>
                         <div class="clearfix"></div>
