@@ -67,9 +67,6 @@
             <th class="ft_h1"></th>
             <th class="ft_h">基金代码</th>
             <th class="ft_h3">基金简称</th>
-            <th class="ft_h3">资产</th>
-            <th class="ft_h">涨跌幅</th>
-            <th class="ft_h">持仓盈亏</th>
         </tr>
         <c:forEach items="${showTrendList}" var="trend" varStatus="status">
             <tr class="ft_row" id="tr_${status.index}">
@@ -77,11 +74,8 @@
                 <td><input type="checkbox" name="check" value="${status.index+1}" checked>
                     <input type="hidden" name="updateDate" value="${trend.date}">
                 </td>
-                <td><input type="text" value="${trend.fundcode}"  name="fundcode" id="fundcode" style="border: none"></td>
+                <td><input type="text" value="${trend.fundcode}"  name="fundcode" id="fundcode" style="border: none;text-align:center;"></td>
                 <td>${trend.fundname}</td>
-                <td><input type="text" name="property" value=" "></td>
-                <td><input type="text" name="zdf" value=" "></td>
-                <td><input type="text" name="ccyk" value=" "></td>
             </tr>
         </c:forEach>
     </table>

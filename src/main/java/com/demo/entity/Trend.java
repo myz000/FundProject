@@ -3,6 +3,7 @@ package com.demo.entity;
 import lombok.Data;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -11,6 +12,7 @@ import javax.persistence.Table;
 @Data
 public class Trend {
     @Id
+    @GeneratedValue
     private long id;                          //自增ID
     private String fundcode;                  //基金代码
     private String currentdate;               //当前日期
@@ -18,7 +20,7 @@ public class Trend {
     private double zhangdiefu;                //涨跌幅
     private double chicangyingkui;            //持仓盈亏
     private int investdays;                   //定投天数
-    private float shouyirate;                 //收益率
+    private double shouyirate;                 //收益率
     private double shourinianhua;             //首日年化
     private double xirr;                      //xirr年化
     private double profit;                    //本轮收益

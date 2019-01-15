@@ -35,7 +35,7 @@
 <div class="MyFund">
   <div class="ny_cont zml_time">
   <label>${invest.fundname}(${invest.fundcode})</label>
-        <table class="table fund_table" id="MF_tab">
+         <table class="table fund_table" id="MF_tab">
             <tr class="ft_row">
                <th class="ft_h">定投首日日期</th>
                <th class="ft_h">定投方式</th>
@@ -48,7 +48,7 @@
                <td>${invest.amountofinvest}(元)</td>
                <td>${invest.alreadyincome}(元)</td>
             </tr>
-            </table>
+         </table>
 
          <table class="table fund_table" id="MF_tab">
                     <tr class="ft_row">
@@ -63,33 +63,30 @@
                        <td>${invest.delaydays}</td>
                        <td>${invest.platform}</td>
                     </tr>
-                    </table>
+         </table>
+
          <table class="table fund_table" id="MF_tab">
                     <tr class="ft_row">
                        <th class="ft_h3">更新日期</th>
-                       <th>资产</th>
-                       <th>涨跌幅</th>
-                       <th>持仓盈亏</th>
-                       <th>定投天数</th>
-                       <th>收益率</th>
-                       <th>首日年化</th>
-                       <th>xirr年化</th>
-                       <th>本轮收益</th>
-                       <th>投入成本</th>
-                       <th>单位净值</th>
-                       <th>购买份额</th>
-                       <th>总份额</th>
+                       <th class="ft_h">资产</th>
+                       <th class="ft_h3">持仓盈亏</th>
+                       <th class="ft_h3">定投天数</th>
+                       <th class="ft_h3">收益率</th>
+                       <th class="ft_h3">首日年化</th>
+                       <th class="ft_h3">本轮收益</th>
+                       <th class="ft_h3">投入成本</th>
+                       <th class="ft_h3">单位净值</th>
+                       <th class="ft_h3">购买份额</th>
+                       <th class="ft_h3">总份额</th>
                     </tr>
             <c:forEach items="${trendList}" var="trend" varStatus="status">
                 <tr class="ft_row" id="tr_${status.index}">
                     <td>${trend.currentdate}</td>
                     <td>${trend.property}</td>
-                    <td>${trend.zhangdiefu}</td>
                     <td>${trend.chicangyingkui}</td>
                     <td>${trend.investdays}</td>
                     <td>${trend.shouyirate}</td>
                     <td>${trend.shourinianhua}</td>
-                    <td>${trend.xirr}</td>
                     <td>${trend.profit}</td>
                     <td>${trend.investcost}</td>
                     <td>${trend.unitval}</td>

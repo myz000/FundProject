@@ -2664,6 +2664,13 @@ ul.address-text b {
     text-align: center;
 }
 
+.fund_table .ft_h5{
+    border:1px solid #333333;
+    width: 400px;
+    text-align: center;
+    padding-right:50em;
+}
+
 
 .pageSide{width:1000px; text-align: center;}
 
@@ -2897,6 +2904,29 @@ padding:2em 0;
     color: #FFFFCC;
 }
 
+.newsContent{
+padding:5px 10px;
+}
+
+.newsContent .newsInfo{
+margin_bottom:2em;
+display:inline;
+}
+
+.newsContent .newsInfo .newsSource{
+float:left;
+color:red;
+}
+
+.newsContent .newsInfo .newsPubDate{
+float:right;
+color:blue;
+margin_right:100px;
+}
+
+.newsContent .newsDesc{
+height:150px;
+}
 
 
 

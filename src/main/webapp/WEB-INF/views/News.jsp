@@ -51,11 +51,8 @@
      <table class="table fund_table">
      <thead>
              <tr class="ft_row">
-                 <th class="ft_h1">序号</th>
-                 <th class="ft_h2">标题</th>
-                 <th></th>
-                 <th class="ft_h2">来源网站</th>
-                 <th class="ft_h">日期</th>
+                 <th class="ft_h1"></th>
+                 <th class="ft_h5"></th>
              </tr>
              </thead>
             <tbody id="NewsBody">
@@ -109,10 +106,11 @@
                                 html+="<img src='../static/images/news.jpg' width='200' height='200'>";
                                 }
 
-                html+="<td><a href='"+item[i].link+"' target='_blank'>"+item[i].title+"</a></td>"+
-                       "<td>"+item[i].desc+"</td>"+
-                       "<td>"+item[i].source+"</td>"+
-                       "<td>"+item[i].pubDate+"</td>"+
+                html+="<td><div class='newsContent'><a href='"+item[i].link+"' target='_blank' style='font-size:15px;' >"+item[i].title+"</a><br>"+
+                        "<div class='newsDesc'>"+item[i].desc+"</div>"+
+                        "<div class='newsInfo'>"+
+                        "<div class='newsSource'>"+item[i].source+"</div>"+
+                        "<div class='newsPubDate'>"+item[i].pubDate+"</div></div></div></td>"+
                        "</tr>";
                                                              }
                var label=document.getElementById("NewsBody");

@@ -11,10 +11,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -38,8 +44,6 @@ public class FundController {
 
     @RequestMapping(value = "/GetFundList")
     public String getFundList(HttpSession session) {
-        //  List<Fund> fundList = fundService.getFundList();
-        //  session.setAttribute("FundList", fundList);
         return "Fund_1";
     }
 
@@ -89,8 +93,6 @@ public class FundController {
                                   HttpSession session) {
         String userName = (String) session.getAttribute(WebSecurityConfig.SESSION_KEY);
         User user = userService.findUserByName(userName);
-        // NetValue value=showApiService.getNetValue()
-
         Invest invest = new Invest();
         UUID uuid = UUID.randomUUID();
         invest.setId(uuid.toString());
@@ -174,9 +176,6 @@ public class FundController {
     public ResponseEntity UpdateTrend(String[] check,
                                       String date,
                                       String[] fundcode,
-                                      String[] property,
-                                      String[] zdf,
-                                      String[] ccyk,
                                       String[] investid,
                                       String[] updateDate,
                                       HttpSession session
@@ -191,12 +190,6 @@ public class FundController {
         for (int i = 0; i < len; i++) {
             if (!checkList.contains(String.valueOf(i + 1))) {
                 continue;
-            }
-
-            if (fundcode[i].equals("") || property[i].equals("") || zdf[i].equals("") || ccyk[i].equals("")) {
-                m.put("stateCode", "400");
-                m.put("message", "更新数据不能为空！");
-                return ResponseEntity.ok(m);
             }
 
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -272,9 +265,6 @@ public class FundController {
             cc.add(Calendar.DATE, 1); // 日期加1天
 
             while (!d.after(today)) {
-             /*   if (d.after(endDate)) {
-                    break;
-                }*/
                 System.out.println(d);
                 String dd = dateFormat1.format(d);
                 if ((!trendDate.contains(dd)) && netDate.contains(dd)) {
@@ -356,50 +346,6 @@ public class FundController {
                 }
                 d = cc.getTime();
             }
-
-
-
-
-
-
-
-
-
-
-
-           /* try {
-                String code = fundcode[i];
-                double p = Double.parseDouble(property[i]);
-                double z = Double.parseDouble(zdf[i]);
-                double c = Double.parseDouble(ccyk[i]);
-                double investedcost = z - (c - invest.getAlreadyincome());
-                int investdays = daysBetween(invest.getFirstdate(), date);
-                double profit = (c - invest.getAlreadyincome()) * (1 - invest.getFee());
-                double shourinianhua = (profit / investedcost) / investdays * 365;
-                float shouyirate = (float) ((c - invest.getAlreadyincome() - z * 0.005) / investedcost);
-                double xirr = 0;
-                Trend T = new Trend();
-                T.setFundcode(code);
-                T.setCurrentdate(date);
-                T.setProperty(p);
-                T.setZhangdiefu(z);
-                T.setChicangyingkui(c);
-                T.setInvestdays(investdays);
-                T.setShouyirate(shouyirate);
-                T.setShourinianhua(shourinianhua);
-                T.setXirr(xirr);
-                T.setProfit(profit);
-                T.setInvestcost(investedcost);
-                T.setUserid(user.getId());
-                T.setInvestid(invest.getId());
-                T.setPayments(invest.getAmountofinvest());
-                trendService.saveTrend(T);
-            } catch (ParseException e) {
-                e.printStackTrace();
-                m.put("stateCode", "400");
-                m.put("message", "e");
-                return ResponseEntity.ok(m);
-            }*/
         }
 
 
@@ -422,10 +368,25 @@ public class FundController {
     @RequestMapping(value = "/user/FundDetail", method = RequestMethod.GET)
     public String getFundInfo(@Param(value = "investId") String investId,
                               HttpServletRequest request
-    ) {
+    ) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         Invest invest = investService.findInvestById(investId);
         List<Trend> trendList = trendService.findTrendsByInvestId(investId);
-        // trendList.removeIf(r->r.getPayments()==0);
+        // 获取实体类的所有属性，返回Field数组
+        for (Trend t : trendList) {
+            Field[] field = t.getClass().getDeclaredFields();
+            for (int i = 0; i < field.length; i++) {
+                if (field[i].getGenericType().toString().equals("double")) {
+                    String name = field[i].getName(); // 获取属性的名字
+                    name = name.substring(0, 1).toUpperCase() + name.substring(1); // 将属性的首字符大写，方便构造get，set方法
+                    Method m = null;
+                    m = t.getClass().getMethod("get" + name);
+                    double value = (double) m.invoke(t); // 调用getter方法获取属性值
+                    DecimalFormat df = new DecimalFormat("0.00");
+                    m = t.getClass().getMethod("set" + name, double.class);
+                    m.invoke(t, Double.parseDouble(df.format(value)));
+                }
+            }
+        }
         request.setAttribute("invest", invest);
         request.setAttribute("trendList", trendList);
         return "MyFundDetail";

@@ -12,12 +12,12 @@ public class FundDetailInfo {
 
     @Data
     public static class FundFullInfo {
-        private String dayOfGrowth;                 //日增长率
-        private boolean fixedDisplayStatus;          //无
+        private String dayOfGrowth;                   //日增长率
+        private boolean fixedDisplayStatus;           //无
         private String fundCode;                      //基金代码
         private String fundCompanyName;               //基金公司名称
-        private String fundName;                      //基金名称
-        private String fundNameAbbr;                   //基金简称
+        private String fundName;                       //基金名称
+        private String fundNameAbbr;                    //基金简称
         private String fundNameAbbr4;                   //基金简称
         private String fundType;                       //基金类型
         private String instId;                         //无
