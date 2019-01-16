@@ -7,17 +7,20 @@ import com.demo.service.FundService;
 import com.demo.service.TableService.Impl.InvestService;
 import com.demo.service.TableService.Impl.TrendService;
 import com.demo.service.TableService.Impl.UserService;
+import com.demo.service.XirrService;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.BufferedOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -40,6 +43,8 @@ public class FundController {
     private FundService fundService;
     @Autowired
     private ShowApiService showApiService;
+    @Autowired
+    private XirrService xirrService;
 
 
     @RequestMapping(value = "/GetFundList")
@@ -381,7 +386,7 @@ public class FundController {
                     Method m = null;
                     m = t.getClass().getMethod("get" + name);
                     double value = (double) m.invoke(t); // 调用getter方法获取属性值
-                    DecimalFormat df = new DecimalFormat("0.00");
+                    DecimalFormat df = new DecimalFormat("0.0000");
                     m = t.getClass().getMethod("set" + name, double.class);
                     m.invoke(t, Double.parseDouble(df.format(value)));
                 }
@@ -399,5 +404,29 @@ public class FundController {
         System.out.println("StopInvest");
         investService.StopInvest(investId);
         return LookBoughtFund(session, request);
+    }
+
+    @RequestMapping(value = "/user/DownloadTrends")
+    public void downloadTrends(@RequestParam("investId") String investId,
+                               HttpServletResponse response) {
+        List<Trend> trendList = trendService.findTrendsByInvestId(investId);
+        HSSFWorkbook wb = xirrService.exportTrends(trendList);
+        //第六步将生成excel文件保存到指定路径下
+        try {
+            OutputStream output = new BufferedOutputStream(response.getOutputStream());
+            //清空缓存
+            response.reset();
+            //定义浏览器响应表头，顺带定义下载名
+            response.addHeader("Content-Disposition", "attachment;filename=" + new String((System.currentTimeMillis() + "_走势表.xls").getBytes("UTF-8"), "ISO8859-1"));
+
+            //定义下载的类型，标明是excel文件
+            response.setContentType("application/vnd.ms-excel");
+            wb.write(output);
+            output.write(wb.getBytes());// 输出文件  wb是worksheet对象
+            output.flush();
+            output.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

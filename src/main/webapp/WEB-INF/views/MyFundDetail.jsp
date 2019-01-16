@@ -64,7 +64,7 @@
                        <td>${invest.platform}</td>
                     </tr>
          </table>
-
+         <input type="button" value="导出走势表" onclick="window.location.href='/user/DownloadTrends?investId=${invest.id}'">
          <table class="table fund_table" id="MF_tab">
                     <tr class="ft_row">
                        <th class="ft_h3">更新日期</th>
@@ -98,5 +98,26 @@
   </div>
 </div>
 <jsp:include page="footer.jsp"/>
+<script>
+function download(investId) {
+                    $.ajax({
+                    //几个参数需要注意一下
+                        type: "POST",//方法类型
+                        dataType: 'json',//预期服务器返回的数据类型
+                        url: "/user/DownloadTrends?investId="+investId ,//url
+                        success: function (result){
+                            console.log(result);
+                            if (result==true) {
+                                 alert("导出成功!");
+                            }
+                            else {
+                                 alert("导出失败!");
+                            }
+                            ;
+                        }
+                    });
+                }
+</script>
+
 </body>
 </html>
