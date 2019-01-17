@@ -192,16 +192,16 @@ public class FundController {
         User user = userService.findUserByName(userName);
         Map m = new HashMap();
 
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date a;
+        a = sdf.parse(date);
+
         for (int i = 0; i < len; i++) {
             if (!checkList.contains(String.valueOf(i + 1))) {
                 continue;
             }
-
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            Date a;
             Date b;
             try {
-                a = sdf.parse(date);
                 b = sdf.parse(updateDate[i]);
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -212,10 +212,17 @@ public class FundController {
 
             if (a.before(b) || a.equals(b)) {
                 m.put("stateCode", "400");
-                m.put("message", "第" + (i + 1) + "条基金更新日期晚于当前日期！");
+                m.put("message", "第" + (i + 1) + "条基金更新日期应晚于上次更新日期！");
                 return ResponseEntity.ok(m);
             }
         }
+        Date today = new Date();
+        if (today.before(a)) {
+            m.put("stateCode", "400");
+            m.put("message", "更新日期晚于当前日期！");
+            return ResponseEntity.ok(m);
+        }
+
 
         for (int i = 0; i < len; i++) {
             if (!checkList.contains(String.valueOf(i + 1))) {
@@ -252,7 +259,6 @@ public class FundController {
             DateFormat dateFormat1 = new SimpleDateFormat("yyyy-MM-dd");
             Date beginDate = dateFormat1.parse(invest.getFirstdate());
             Date endDate = dateFormat1.parse(date);
-            Date today = new Date();
             Date d = beginDate;
             int investmode;
             switch (invest.getInvestmode()) {
@@ -267,9 +273,8 @@ public class FundController {
             }
 
             cc.setTime(d);
-            cc.add(Calendar.DATE, 1); // 日期加1天
 
-            while (!d.after(today)) {
+            while (!d.after(endDate)) {
                 System.out.println(d);
                 String dd = dateFormat1.format(d);
                 if ((!trendDate.contains(dd)) && netDate.contains(dd)) {
@@ -305,6 +310,7 @@ public class FundController {
                     T.setUserid(user.getId());
                     T.setInvestid(invest.getId());
                     trendService.saveTrend(T);
+                    trendDate.add(dd);
                 }
                 cc.setTime(d);
                 if (investmode <= 7) {
@@ -318,34 +324,45 @@ public class FundController {
                 }
 
 
-                if (cc.getTime().compareTo(endDate) >= 0) {
+                if (cc.getTime().compareTo(endDate) > 0) {
                     String fds = netDate.get(0);
                     Date fd = dateFormat1.parse(fds);
 
                     if (d.before(fd) || d.equals(fd)) {
-                        Trend T = new Trend();
-                        T.setFundcode(fundcode[i]);
-                        T.setCurrentdate(dateFormat1.format(fd));
-                        T.setUnitval(netDataList.get(0).getUnitVal());
-                        T.setTotalshare(totalShare);
-                        T.setUnitshare(0);
-                        T.setProperty(T.getTotalshare() * T.getUnitval());
-                        T.setInvestcost(cost);
-                        T.setZhangdiefu(0);
-                        T.setChicangyingkui(T.getProperty() - T.getInvestcost());
-                        T.setInvestdays(daysBetween(invest.getFirstdate(), dateFormat1.format(fd)));
-                        double profit = (T.getChicangyingkui() - invest.getAlreadyincome()) * (1 - invest.getFee());
-                        double shourinianhua = (profit / T.getInvestcost()) / T.getInvestdays() * 365;
-                        float shouyirate = (float) ((T.getChicangyingkui() - invest.getAlreadyincome() - T.getProperty() * 0.005) / T.getInvestcost());
-                        double xirr = 0;
-                        T.setShouyirate(shouyirate);
-                        T.setShourinianhua(shourinianhua);
-                        T.setXirr(xirr);
-                        T.setProfit(profit);
-                        T.setUserid(user.getId());
-                        T.setInvestid(invest.getId());
-                        T.setPayments(0);
-                        trendService.saveTrend(T);
+                        String d1 = null;
+                        double v1 = 0;
+                        for (int k = 0; k < netDate.size(); k++) {
+                            if (!sdf.parse(netDate.get(k)).after(endDate)) {
+                                d1 = dateFormat1.format(sdf.parse(netDate.get(k)));
+                                v1 = netDataList.get(k).getUnitVal();
+                                break;
+                            }
+                        }
+                        if (!trendDate.contains(d1) && d1 != null) {
+                            Trend T = new Trend();
+                            T.setCurrentdate(d1);
+                            T.setUnitval(v1);
+                            T.setFundcode(fundcode[i]);
+                            T.setTotalshare(totalShare);
+                            T.setUnitshare(0);
+                            T.setProperty(T.getTotalshare() * T.getUnitval());
+                            T.setInvestcost(cost);
+                            T.setZhangdiefu(0);
+                            T.setChicangyingkui(T.getProperty() - T.getInvestcost());
+                            T.setInvestdays(daysBetween(invest.getFirstdate(), dateFormat1.format(fd)));
+                            double profit = (T.getChicangyingkui() - invest.getAlreadyincome()) * (1 - invest.getFee());
+                            double shourinianhua = (profit / T.getInvestcost()) / T.getInvestdays() * 365;
+                            float shouyirate = (float) ((T.getChicangyingkui() - invest.getAlreadyincome() - T.getProperty() * 0.005) / T.getInvestcost());
+                            double xirr = 0;
+                            T.setShouyirate(shouyirate);
+                            T.setShourinianhua(shourinianhua);
+                            T.setXirr(xirr);
+                            T.setProfit(profit);
+                            T.setUserid(user.getId());
+                            T.setInvestid(invest.getId());
+                            T.setPayments(0);
+                            trendService.saveTrend(T);
+                        }
                     }
                     break;
                 }
