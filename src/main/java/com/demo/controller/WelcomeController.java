@@ -2,13 +2,18 @@ package com.demo.controller;
 
 import com.demo.configuration.WebSecurityConfig;
 import com.demo.entity.LoginTicket;
+import com.demo.entity.ResponseBody;
 import com.demo.entity.User;
 import com.demo.service.TableService.Impl.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
@@ -21,6 +26,8 @@ import java.util.regex.Pattern;
 
 @Controller
 public class WelcomeController {
+    private static Logger logger = LoggerFactory.getLogger(WelcomeController.class);
+
     @Autowired
     private UserService userService;
 
@@ -148,4 +155,54 @@ public class WelcomeController {
         }
         return ResponseEntity.ok(map);
     }
+
+    @RequestMapping(value = "/findPasswordBack")
+    public String findPasswordBack() {
+        return "FindPasswordBack";
+    }
+
+    @RequestMapping(value = "/toFindPassword")
+    public ResponseEntity<?> toFindPassword(String Phone, String verify, HttpSession session) {
+        ResponseBody r = new ResponseBody();
+        User u = userService.findUserByPhone(Phone);
+        if (verify.equals(session.getAttribute("PhoneVerifyCode"))) {
+            r.setStatus(200);
+            session.setAttribute("fpbUser", u);
+        } else {
+            r.setStatus(400);
+            r.setMsg("验证码错误！");
+        }
+        return ResponseEntity.ok(r);
+    }
+
+    @RequestMapping(value = "/changePassword")
+    public String changePassword() {
+        return "ChangePassword";
+    }
+
+    @PostMapping(value = "/change-password-back")
+    public ResponseEntity changePswordBack(
+            @Param("password1") String password1,
+            @Param("password2") String password2,
+            HttpSession session
+    ) {
+        logger.info("/change-password-back");
+        HashMap m = new HashMap();
+        User u = (User) session.getAttribute("fpbUser");
+        if (u == null) {
+            m.put("msg", "没有绑定用户！");
+        }
+        if (password1.equals("") || password2.equals("")) {
+            m.put("msg", "内容不能为空！");
+        } else if (!password1.equals(password2)) {
+            m.put("msg", "两次输入新密码不一致！");
+        } else {
+            u.setPasswd(password1);
+            userService.saveUser(u);
+            m.put("state", "1");
+            m.put("msg", "修改密码成功！");
+        }
+        return ResponseEntity.ok(m);
+    }
+
 }

@@ -56,7 +56,7 @@
                                 <div class="informdiv">
                                 <label name="inform" readonly="true" id="inform"></label>
                                 </div>
-                                <h4><a href="#">忘记密码？</a></h4>
+                                <h4><a href="/findPasswordBack">忘记密码？</a></h4>
                                 <div class="single-bottom">
                                     <input type="checkbox" name="Check" id="brand" value="1">
                                     <label for="brand"><span></span>保持登陆</label>

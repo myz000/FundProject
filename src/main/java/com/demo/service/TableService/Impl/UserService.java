@@ -45,6 +45,15 @@ public class UserService {
         return user;
     }
 
+    public User findUserByPhone(String tel) {
+        User user = null;
+        try {
+            user = userRepository.findByTel(tel);
+        } catch (Exception e) {
+        }
+        return user;
+    }
+
     public LoginTicket findLoginTicketByTicket(String ticket) {
         LoginTicket loginTicket = null;
         try {

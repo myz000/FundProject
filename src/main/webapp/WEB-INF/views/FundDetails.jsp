@@ -36,16 +36,18 @@
      <c:choose>
                                <c:when test="${empty Fund.fundFullInfo}">
                                <div class="error_info">
-                               <h3>404</h3>
+                               <br><br>
+                               <h2>未找到该基金信息！</h2>
+                               <br><br>
                                </div>
                                </c:when>
                               <c:otherwise>
 
     <div class="FundDetails">
 
-    <label>${Fund.fundFullInfo.fundName}(${Fund.fundFullInfo.fundCode})</label>
-    更新日期：${Fund.fundFullInfo.netValueDate}
-    <a href='WriteInvestInfor?fundname=${Fund.fundFullInfo.fundName}&fundcode=${Fund.fundFullInfo.fundCode}'>添加</a>
+    <span style="font-size: x-large;">${Fund.fundFullInfo.fundName}(${Fund.fundFullInfo.fundCode})</span>
+    <span>更新日期：${Fund.fundFullInfo.netValueDate}</span>
+    <a href='WriteInvestInfor?fundname=${Fund.fundFullInfo.fundName}&fundcode=${Fund.fundFullInfo.fundCode}' style="padding: 5px 15px;background: #02B875;color: white;">添加</a>
     <div class="baseInfoTable">
     <table>
     <tr>
@@ -63,7 +65,7 @@
     </tr>
     </table>
     <div>
-    <img src="http://j4.dfcfw.com/charts/pic6/${Fund.fundFullInfo.fundCode}.png">
+    <img src="http://j4.dfcfw.com/charts/pic6/${Fund.fundFullInfo.fundCode}.png" style="margin-left: 15%;">
     <div class="fundGradeTable">
      <table>
      <tr><th>评级时间</th><th>级别</th><th>评级机构</th>
@@ -97,7 +99,7 @@
         <td class="t">基金管理人</td>
         <td>
         <c:forEach items="${Fund.fundManagers}" var="manager">
-        <a href="">${manager.name}</a>&nbsp
+        <a href="#" data-toggle="modal" data-target="#managerModal" onclick="Values('${manager.name}')">${manager.name}&nbsp</a>
         </c:forEach>
         </td>
         <td class="t">风险级别</td>
@@ -114,16 +116,45 @@
 
     <div class="fundStrategy">
     <label>投资理念</label>
-    <p>${Fund.fundFullInfo.investPhilosophy}</p>
-    <label>基金策略</label>
-    <p>${Fund.fundFullInfo.investStrategy}</p>
+    <p style="color: black;">${Fund.fundFullInfo.investPhilosophy}</p>
+    <label style="margin-top: 20px;">基金策略</label>
+    <p style="color: black;margin-bottom: 20px;">${Fund.fundFullInfo.investStrategy}</p>
     </div>
-
-
 </div>
 </c:otherwise>
 </c:choose>
-<div>
+</div>
+</div>
+</div>
 <jsp:include page="footer.jsp"/>
+
+<div class="modal fade" id="managerModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content modal-info">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body real-spa">
+                <div class="login-grids">
+                    <div class="login">
+                        <div class="login-right">
+                            <form  method="post" name="loginForm" id="loginForm">
+                               <input type="text" id="managerText" name="managerText" value="">
+                            </form>
+                        </div>
+                    </div>
+                    <p>By logging in you agree to our <a href="#">Terms</a> and <a href="#">Conditions</a> and <a href="#">Privacy Policy</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+function Values(manager){
+  console.log("enter Values(manager)");
+  $("#managerText").val(manager);
+
+}
+</script>
 </body>
 </html>

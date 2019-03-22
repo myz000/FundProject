@@ -21,8 +21,8 @@
   function settime(obj,cookieName) {
       countdown=getCookieValue(cookieName);
       if (countdown == 0) {
-          document.registerForm.VerifyButton.value =" 重新发送 ";
-          document.registerForm.VerifyButton.disabled=false;
+          obj.value =" 重新发送 ";
+          obj.disabled=false;
           return;
       } else {
           obj.value = " (" + countdown +")秒后重新发送";

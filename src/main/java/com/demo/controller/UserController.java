@@ -58,6 +58,29 @@ public class UserController {
         return ResponseEntity.ok(note);
     }
 
+
+    @RequestMapping(value = "/FindPasswordPhoneVerify")
+    public ResponseEntity<?> findPasswordPhoneVerify(String Phone, HttpSession session) {
+        if (Phone.equals("") || !Pattern.matches("(\\d{11})", Phone)) {
+            HashMap map = new HashMap();
+            map.put("error_code", 1);
+            map.put("reason", "请输入有效电话号码！");
+            return ResponseEntity.ok(map);
+        }
+        User u = userService.findUserByPhone(Phone);
+        if (u == null) {
+            HashMap map = new HashMap();
+            map.put("error_code", 1);
+            map.put("reason", "没有找到该号码绑定用户！");
+            return ResponseEntity.ok(map);
+        }
+        int code = (int) ((Math.random() * 9 + 1) * 1000);
+        NoteBody note = noteServiceImpl.PhoneVerify(code, Phone);
+        if (note.getError_code().equals("0"))
+            session.setAttribute("PhoneVerifyCode", String.valueOf(code));
+        return ResponseEntity.ok(note);
+    }
+
     @RequestMapping(value = "/user/personal", method = RequestMethod.GET)
     public String personal(HttpServletRequest request, HttpSession session) {
         User u = userService.findUserByName((String) session.getAttribute("username"));
