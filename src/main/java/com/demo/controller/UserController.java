@@ -23,8 +23,7 @@ import java.util.regex.Pattern;
 public class UserController {
     @Autowired
     private UserService userService;
-    @Autowired
-    private NoteServiceImpl noteServiceImpl = new NoteServiceImpl();
+
     @Autowired
     private InformService informService;
 
@@ -43,43 +42,8 @@ public class UserController {
         else return "null";
     }
 
-    @RequestMapping(value = "/PhoneVerify")
-    public ResponseEntity<?> phoneVerify(String Phone, HttpSession session) {
-        if (Phone.equals("") || !Pattern.matches("(\\d{11})", Phone)) {
-            HashMap map = new HashMap();
-            map.put("error_code", 1);
-            map.put("reason", "请输入有效电话号码！");
-            return ResponseEntity.ok(map);
-        }
-        int code = (int) ((Math.random() * 9 + 1) * 1000);
-        NoteBody note = noteServiceImpl.PhoneVerify(code, Phone);
-        if (note.getError_code().equals("0"))
-            session.setAttribute("PhoneVerifyCode", String.valueOf(code));
-        return ResponseEntity.ok(note);
-    }
 
 
-    @RequestMapping(value = "/FindPasswordPhoneVerify")
-    public ResponseEntity<?> findPasswordPhoneVerify(String Phone, HttpSession session) {
-        if (Phone.equals("") || !Pattern.matches("(\\d{11})", Phone)) {
-            HashMap map = new HashMap();
-            map.put("error_code", 1);
-            map.put("reason", "请输入有效电话号码！");
-            return ResponseEntity.ok(map);
-        }
-        User u = userService.findUserByPhone(Phone);
-        if (u == null) {
-            HashMap map = new HashMap();
-            map.put("error_code", 1);
-            map.put("reason", "没有找到该号码绑定用户！");
-            return ResponseEntity.ok(map);
-        }
-        int code = (int) ((Math.random() * 9 + 1) * 1000);
-        NoteBody note = noteServiceImpl.PhoneVerify(code, Phone);
-        if (note.getError_code().equals("0"))
-            session.setAttribute("PhoneVerifyCode", String.valueOf(code));
-        return ResponseEntity.ok(note);
-    }
 
     @RequestMapping(value = "/user/personal", method = RequestMethod.GET)
     public String personal(HttpServletRequest request, HttpSession session) {

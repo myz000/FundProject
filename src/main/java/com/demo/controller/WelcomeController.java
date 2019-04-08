@@ -4,6 +4,8 @@ import com.demo.configuration.WebSecurityConfig;
 import com.demo.entity.LoginTicket;
 import com.demo.entity.ResponseBody;
 import com.demo.entity.User;
+import com.demo.entity.apiBody.NoteBody;
+import com.demo.service.Impl.NoteServiceImpl;
 import com.demo.service.TableService.Impl.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +32,8 @@ public class WelcomeController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private NoteServiceImpl noteServiceImpl;
 
     @RequestMapping(value = "/Logout")
     public ResponseEntity<?> logout(HttpServletRequest request, HttpSession session) {
@@ -165,12 +169,18 @@ public class WelcomeController {
     public ResponseEntity<?> toFindPassword(String Phone, String verify, HttpSession session) {
         ResponseBody r = new ResponseBody();
         User u = userService.findUserByPhone(Phone);
-        if (verify.equals(session.getAttribute("PhoneVerifyCode"))) {
-            r.setStatus(200);
-            session.setAttribute("fpbUser", u);
-        } else {
+        if (session.getAttribute("PhoneVerifyCode") == null) {
+            r.setStatus(400);
+            r.setMsg("请进行短信验证！");
+        } else if (verify.equals("")) {
+            r.setStatus(400);
+            r.setMsg("请输入验证码！");
+        } else if (!verify.equals(session.getAttribute("PhoneVerifyCode"))) {
             r.setStatus(400);
             r.setMsg("验证码错误！");
+        } else {
+            r.setStatus(200);
+            session.setAttribute("fpbUser", u);
         }
         return ResponseEntity.ok(r);
     }
@@ -203,6 +213,45 @@ public class WelcomeController {
             m.put("msg", "修改密码成功！");
         }
         return ResponseEntity.ok(m);
+    }
+
+    @RequestMapping(value = "/FindPasswordPhoneVerify")
+    public ResponseEntity<?> findPasswordPhoneVerify(String Phone, HttpSession session) {
+        ResponseBody R = new ResponseBody();
+        if (Phone.equals("") || !Pattern.matches("(\\d{11})", Phone)) {
+            R.setStatus(502);
+            R.setMsg("请输入有效电话号码！");
+            return ResponseEntity.ok(R);
+        }
+        User u = userService.findUserByPhone(Phone);
+        if (u == null) {
+            R.setStatus(502);
+            R.setMsg("没有找到该号码绑定用户！");
+            return ResponseEntity.ok(R);
+        }
+        R.setStatus(200);
+        R.setData(sendNote(Phone, session));
+        return ResponseEntity.ok(R);
+    }
+
+    @RequestMapping(value = "/PhoneVerify")
+    public ResponseEntity<?> phoneVerify(String Phone, HttpSession session) {
+        if (Phone.equals("") || !Pattern.matches("(\\d{11})", Phone)) {
+            HashMap map = new HashMap();
+            map.put("error_code", 1);
+            map.put("reason", "请输入有效电话号码！");
+            return ResponseEntity.ok(map);
+        }
+        return ResponseEntity.ok(sendNote(Phone, session));
+    }
+
+    public NoteBody sendNote(String Phone, HttpSession session) {
+        int code = (int) ((Math.random() * 9 + 1) * 1000);
+        NoteBody note = noteServiceImpl.PhoneVerify(code, Phone);
+        if (note.getError_code().equals("0")) {
+            session.setAttribute("PhoneVerifyCode", String.valueOf(code));
+        }
+        return note;
     }
 
 }

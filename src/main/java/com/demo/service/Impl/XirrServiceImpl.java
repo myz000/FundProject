@@ -3,6 +3,7 @@ package com.demo.service.Impl;
 import com.demo.entity.Trend;
 import com.demo.service.XirrService;
 import org.apache.poi.hssf.usermodel.*;
+import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.springframework.stereotype.Component;
@@ -52,8 +53,8 @@ public class XirrServiceImpl implements XirrService {
         //设置单元格格式
         HSSFCellStyle cellStyle = wb.createCellStyle();    //style可设置单元格样式
         cellStyle.setWrapText(true);                      //自动换行
-        cellStyle.setAlignment(HorizontalAlignment.CENTER);//水平居中
-        cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);//垂直居中
+        cellStyle.setAlignment(CellStyle.ALIGN_CENTER);//水平居中
+        cellStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);//垂直居中
 
         //第四步创建表头单元格
         for (int i = 0; i < TREND_HEAD.size(); i++) {

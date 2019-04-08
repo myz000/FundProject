@@ -35,13 +35,19 @@
 <div class="container">
 <div class="inform_detail_div">
 <p style="text-align:center;">
-<label style="width:20%;font-size:25px;color:black;">${inform.title}</label><span>${inform.time}</span>
+    <label style="width:100%;font-size:25px;color:black;text-align: center;margin-top: 20px;">${inform.title}</label><span>${inform.time}</span>
 </p>
 
 <p>
-<textarea rows="10" cols="163" style="color:black;border:none;">
+<textarea cols="163" style="color:black;border:none;" readonly>
 ${inform.content}
 </textarea>
+
+    <script>
+        $.each($("textarea"), function (i, n) {
+            $(n).css("height", n.scrollHeight + "px");
+        })
+    </script>
 </p>
 <br>
 </div>

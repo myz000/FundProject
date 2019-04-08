@@ -32,7 +32,7 @@
                 <h1>Hi !</h1>
                 <h6>修改密码</h6>
                 <ul class="address">
-                 <li>
+                    <li>
                         <ul class="address-text">
                             <li><b>姓名:</b></li>
                             <li><b><input type="text" value="${user.username}" name="username" readonly style="border:none;"></b></li>
@@ -57,10 +57,12 @@
                        <span id="tishi" style="color:red;"></span>
                        </p>
                     </li>
-                    <div class="authority_submit">
-                        <input type="button" value="确定" onclick="validate()">
-                    </div>
+
                 </ul>
+
+            </div>
+            <div class="authority_submit">
+                <input type="button" value="确定" onclick="validate()">
             </div>
             <div class="clearfix"> </div>
         </div>

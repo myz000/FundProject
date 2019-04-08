@@ -27,7 +27,7 @@
 <!--banner-->
 <div class="banner1">
     <div class="container">
-        <h3 class="animated wow slideInLeft" data-wow-delay=".5s"><span>我的基金</span></h3>
+        <h3 class="animated wow slideInLeft" data-wow-delay=".5s"><a href="/informs">基金管理</a> /<span>我的基金</span></h3>
     </div>
 </div>
 <!--banner-->

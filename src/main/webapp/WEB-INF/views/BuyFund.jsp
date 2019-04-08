@@ -57,11 +57,11 @@
         </div>
         <div class="BF_text">
             <span class="BF_MENU">基金代码 ：</span>
-            <input class="BF_TT" readonly="true" value="${fundCode}" name="fundCode"/>
+            <input type="text" readonly value="${fundCode}" name="fundCode"/>
         </div>
         <div class="BF_text">
             <span class="BF_MENU">基金名称 ：</span>
-            <input class="BF_TT" readonly="true" value="${fundName}" name="fundName"/>
+            <input type="text" readonly value="${fundName}" name="fundName"/>
         </div>
         <div class="BF_text">
             <span class="BF_MENU">定投首日日期：</span>

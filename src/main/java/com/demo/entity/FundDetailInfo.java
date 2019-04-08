@@ -2,6 +2,7 @@ package com.demo.entity;
 
 import lombok.Data;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 @Data
@@ -53,6 +54,22 @@ public class FundDetailInfo {
         private boolean incumbent;            //无
         private String managerId;            //编号
         private String name;                 //姓名
+
+        public String getGender() {
+            if (gender.equals("1")) {
+                return "男";
+            } else return "女";
+        }
+
+        public String getGmtCreate() {
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            return df.format(Long.valueOf(gmtCreate));
+        }
+
+        public String getGmtModified() {
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            return df.format(Long.valueOf(gmtModified));
+        }
     }
 
     @Data

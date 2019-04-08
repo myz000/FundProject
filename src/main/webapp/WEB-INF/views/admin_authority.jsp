@@ -62,13 +62,14 @@
                             <input type="radio" name="State" value="0" <c:if test="${user.state== 0}">checked="checked"</c:if>>待审核
                             <input type="radio" name="State" value="1" <c:if test="${user.state== 1}">checked="checked"</c:if>>正常
                             <input type="radio" name="State" value="2" <c:if test="${user.state== 2}">checked="checked"</c:if>>冻结
+
                         </li>
                     </ul>
                 </li>
-               <div class="authority_submit">
-                        <input type="submit" value="确定">
-               </div>
             </ul>
+        </div>
+        <div class="authority_submit">
+            <input type="submit" value="确定">
         </div>
         <div class="clearfix"> </div>
     </div>

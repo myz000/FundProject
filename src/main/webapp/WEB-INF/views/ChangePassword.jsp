@@ -20,7 +20,7 @@
 <!--banner-->
 <div class="banner1">
     <div class="container">
-       <h3 class="animated wow slideInLeft" data-wow-delay=".5s"><a href="index.html">主页</a> / <span>个人中心</span></h3>
+        <h3 class="animated wow slideInLeft" data-wow-delay=".5s"><a href="index.html">主页</a> / <span>修改密码</span></h3>
     </div>
 </div>
 <!--banner-->
@@ -57,10 +57,10 @@
                        <span id="tishi" style="color:red;"></span>
                        </p>
                     </li>
-                    <div class="authority_submit">
-                        <input type="button" value="确定" onclick="cp()">
-                    </div>
                 </ul>
+            </div>
+            <div class="authority_submit">
+                <input type="button" value="确定" onclick="cp()">
             </div>
             <div class="clearfix"> </div>
         </div>

@@ -26,7 +26,7 @@
 <body>
 <div class="banner1">
     <div class="container">
-        <h3 class="animated wow slideInLeft" data-wow-delay=".5s"><a href="index.html">主页</a> / <span>添加通知</span></h3>
+        <h3 class="animated wow slideInLeft" data-wow-delay=".5s"><a href="index.html">通知管理</a> / <span>修改通知</span></h3>
     </div>
 </div>
 
@@ -36,7 +36,7 @@
 
 <p>
 <label>标题：</label>
-<input type="text" style="width:25%;" name="title" value="${inform.title}">
+    <input type="text" style="width:100%;" name="title" value="${inform.title}">
 <input type="hidden"  name="id" value="${inform.id}">
 </p>
 
@@ -45,7 +45,7 @@
 </p>
 
 <p>
-<textarea rows="10" cols="163" name="content">
+<textarea rows="25" cols="163" name="content">
 ${inform.content}
 </textarea>
 </p>

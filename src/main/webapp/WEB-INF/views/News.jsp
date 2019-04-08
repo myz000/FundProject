@@ -9,22 +9,28 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ include file="head.jsp"%>
+<%@ include file="head.jsp" %>
 <html>
 <head>
     <title>Title</title>
     <!--css-->
     <link href="../static/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" charset="UTF-8"/>
-    <link href="../static/css/style.css" rel="stylesheet" type="text/css" media="all" charset="UTF-8" />
-    <link href="../static/css/pagination.css" rel="stylesheet" type="text/css" media="all" charset="UTF-8" />
+    <link href="../static/css/style.css" rel="stylesheet" type="text/css" media="all" charset="UTF-8"/>
+    <link href="../static/css/pagination.css" rel="stylesheet" type="text/css" media="all" charset="UTF-8"/>
     <!--css-->
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <script type="application/x-javascript"> addEventListener("load", function () {
+        setTimeout(hideURLbar, 0);
+    }, false);
+
+    function hideURLbar() {
+        window.scrollTo(0, 1);
+    } </script>
     <!--js-->
     <script src="../static/js/jquery.min.js"></script>
     <script src="../static/js/bootstrap.min.js"></script>
-     <script src="../static/js/pagination.js"></script>
+    <script src="../static/js/pagination.js"></script>
     <!--js-->
     <meta name="referrer" content="no-referrer"/>
 </head>
@@ -47,82 +53,80 @@
 </div>
 <!--Fund-->
 
-<div class="ny_cont zml_time" >
-     <table class="table fund_table">
-     <thead>
-             <tr class="ft_row">
-                 <th class="ft_h1"></th>
-                 <th class="ft_h5"></th>
-             </tr>
-             </thead>
-            <tbody id="NewsBody">
-            <tr>
+<div class="ny_cont zml_time">
+    <table class="table fund_table">
+        <thead>
+        <tr class="ft_row">
+            <th style="width: 30%"></th>
+            <th style="width: 70%"></th>
+        </tr>
+        </thead>
+        <tbody id="NewsBody">
+        <tr>
             <td>
             </td>
-            <tr>
-            </tbody>
-         </table>
-     <div class="pageSide">
+        <tr>
+        </tbody>
+    </table>
+    <div class="pageSide">
         <div class="M-box" id="M-box"></div>
     </div>
-    </div>
+</div>
 
 
 <jsp:include page="footer.jsp"/>
 </body>
 <script>
     $('#M-box').pagination({
-    dataSource:function(done){
-                   var result = [];
-                   for (var i = 1; i < 1000; i++) {
-                       result.push(i);
-                   }
-                   done(result);
-                },
-    jump:true,
-    coping:true,
-    pageSize: 10,
-    callback:function(data,pagination){
-    console.log(pagination.pageNumber);
-    var page=pagination.pageNumber;
-    var pageSize=10;
-     $.ajax({
-          type: 'GET',
-          url: '/newsList?page='+page+"&pageSize="+pageSize,
-          success: function(data) {
-          if(data.ret_code!=0){
-          alert(data.error_message);
-          }
-           else{
-           var item=data.pagebean.contentlist;
-           var html="";
-                for(i in item){
-                console.log(item[i].imageurls);
-                html+="<tr><td>";
-                if(item[i].imageurls.length!=0){
-                                html+="<img src='"+item[i].imageurls[0].url+"' onerror='ImgException(this)' width='200' height='200'>";
-                                }
-                                else{
-                                html+="<img src='../static/images/news.jpg' width='200' height='200'>";
-                                }
+        dataSource: function (done) {
+            var result = [];
+            for (var i = 1; i < 1000; i++) {
+                result.push(i);
+            }
+            done(result);
+        },
+        jump: true,
+        coping: true,
+        pageSize: 10,
+        callback: function (data, pagination) {
+            console.log(pagination.pageNumber);
+            var page = pagination.pageNumber;
+            var pageSize = 10;
+            $.ajax({
+                type: 'GET',
+                url: '/newsList?page=' + page + "&pageSize=" + pageSize,
+                success: function (data) {
+                    if (data.ret_code != 0) {
+                        alert(data.error_message);
+                    } else {
+                        var item = data.pagebean.contentlist;
+                        var html = "";
+                        for (i in item) {
+                            console.log(item[i].imageurls);
+                            html += "<tr><td>";
+                            if (item[i].imageurls.length != 0) {
+                                html += "<img src='" + item[i].imageurls[0].url + "' onerror='ImgException(this)'   width='200px' height='150px'>";
+                            } else {
+                                html += "<img src='../static/images/news.jpg'  width=200px   height=150x  >";
+                            }
 
-                html+="<td><div class='newsContent'><a href='"+item[i].link+"' target='_blank' style='font-size:15px;' >"+item[i].title+"</a><br>"+
-                        "<div class='newsDesc'>"+item[i].desc+"</div>"+
-                        "<div class='newsInfo'>"+
-                        "<div class='newsSource'>"+item[i].source+"</div>"+
-                        "<div class='newsPubDate'>"+item[i].pubDate+"</div></div></div></td>"+
-                       "</tr>";
-                                                             }
-               var label=document.getElementById("NewsBody");
-               label.innerHTML=html;
-          }
-           }
-          });
+                            html += "<td><div class='newsContent'>" +
+                                "<div class='newsDesc'><a href='" + item[i].link + "' target='_blank'>" + item[i].title + "</a><br><span>" + item[i].desc + "</span></div>" +
+                                "<div class='newsInfo'>" +
+                                "<div class='newsSource'>" + item[i].source + "</div>" +
+                                "<div class='newsPubDate'>" + item[i].pubDate + "</div></div></div></td>" +
+                                "</tr>";
+                        }
+                        var label = document.getElementById("NewsBody");
+                        label.innerHTML = html;
+                    }
+                }
+            });
+        }
+    });
+
+    function ImgException(object) {
+        object.src = "../static/images/news.jpg";
     }
-});
-
-  function ImgException(object){
-    object.src="../static/images/news.jpg";
-  }
 </script>
 </html>
